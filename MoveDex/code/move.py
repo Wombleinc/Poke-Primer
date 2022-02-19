@@ -1,7 +1,7 @@
 from prettytable import PrettyTable
-import pokepy as ppy
 
 
+# defines the "Move" object, of which every Pokémon move is a type
 class Move:
 
     def __init__(self):
