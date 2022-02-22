@@ -1,0 +1,123 @@
+#:kivy 2.0
+#:import Factory kivy.factory.Factory
+<PokemonCard>:
+    BoxLayout:
+        orientation: 'vertical'
+        Button:
+            id: root.id
+            text: "Mew"
+            on_release: root.GetCardData(root.id)
+
+<PokeDex>:
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "Poke-Dex"
+            font_size: self.width/10
+            color: 100, 0, 0, 100
+        Button:
+            text: 'Load Pokemon'
+            size_hint: .2, .2
+            pos_hint: {'x':.1, 'top': .9}
+            on_release: root.GeneratePokemon()
+<CardPopUp>:
+    auto_dismiss: False
+    title: root.myCard.name
+    size_hint: .8, .5
+    pos_hint: {'x':.1, 'top': .9}
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            id: number
+            text: root.myCard.number
+        Label:
+            id: name
+            text: root.myCard.name
+        Label:
+            id: desc
+            text: root.myCard.description
+        Button:
+            text: 'Close me!'
+            on_release: root.dismiss()
+
+<ContentNavigationDrawer>:
+
+    ScrollView:
+
+        MDList:
+
+            OneLineListItem:
+                text: "Poke-Dex"
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "poke"
+
+            OneLineListItem:
+                text: "Move-Dex"
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "move"
+            OneLineListItem:
+                text: "Item-Dex"
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "item"
+            OneLineListItem:
+                text: "Trainer"
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "trainer"
+
+
+Screen:
+
+    MDToolbar:
+        id: toolbar
+        pos_hint: {"top": 1}
+        elevation: 10
+        title: "Poke-Primer"
+        left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+
+    MDNavigationLayout:
+        x: toolbar.height
+
+        ScreenManager:
+            id: screen_manager
+
+            Screen:
+                name: "poke"
+                PokeDex:
+            Screen:
+                name: "move"
+
+                BoxLayout:
+                    orientation: "vertical"
+                    Label:
+                        text: "Move-Dex"
+                        font_size: self.width/10
+                        color: 100, 0, 0, 100
+            Screen:
+                name: "item"
+
+                BoxLayout:
+                    orientation: "vertical"
+                    Label:
+                        text: "Item-Dex"
+                        font_size: self.width/10
+                        color: 100, 0, 0, 100
+            Screen:
+                name: "trainer"
+
+                BoxLayout:
+                    orientation: "vertical"
+                    Label:
+                        text: "Trainer"
+                        font_size: self.width/10
+                        color: 100, 0, 0, 100
+        MDNavigationDrawer:
+            id: nav_drawer
+
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
+
