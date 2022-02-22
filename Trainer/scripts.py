@@ -7,7 +7,7 @@ import csv
 def save_team_to_csv(pokemon_team):
     header = ['#', 'Pokemon', 'Held Item', 'Move 1', 'Move 2', 'Move 3', 'Move 4']
 
-    with open('TeamDex\\team.csv', 'w', newline='', encoding='UTF8') as f:
+    with open('Trainer\\team.csv', 'w', newline='', encoding='UTF8') as f:
         writer = csv.writer(f)
 
         writer.writerow(header)
