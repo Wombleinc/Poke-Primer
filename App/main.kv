@@ -1,15 +1,10 @@
 #:kivy 2.0
 #:import Factory kivy.factory.Factory
-<PokemonCard>:
-    BoxLayout:
-        orientation: 'vertical'
-        Button:
-            id: root.id
-            text: "Mew"
-            on_release: root.GetCardData(root.id)
+
 
 <PokeDex>:
     BoxLayout:
+        id: poke
         orientation: "vertical"
         Label:
             text: "Poke-Dex"
@@ -17,28 +12,55 @@
             color: 100, 0, 0, 100
         Button:
             text: 'Load Pokemon'
-            size_hint: .2, .2
+            size_hint: None, None
+            size: 120,40
             pos_hint: {'x':.1, 'top': .9}
             on_release: root.GeneratePokemon()
-<CardPopUp>:
-    auto_dismiss: False
-    title: root.myCard.name
-    size_hint: .8, .5
-    pos_hint: {'x':.1, 'top': .9}
+
+<MoveDex>:
     BoxLayout:
-        orientation: 'vertical'
+        id: move
+        orientation: "vertical"
         Label:
-            id: number
-            text: root.myCard.number
-        Label:
-            id: name
-            text: root.myCard.name
-        Label:
-            id: desc
-            text: root.myCard.description
+            text: "Move-Dex"
+            font_size: self.width/10
+            color: 100, 0, 0, 100
         Button:
-            text: 'Close me!'
-            on_release: root.dismiss()
+            text: 'Load Moves'
+            size_hint: None, None
+            size: 120,40
+            pos_hint: {'x':.1, 'top': .9}
+            on_release: root.GenerateMoves()
+
+<ItemDex>:
+    BoxLayout:
+        id: item
+        orientation: "vertical"
+        Label:
+            text: "Item-Dex"
+            font_size: self.width/10
+            color: 100, 0, 0, 100
+        Button:
+            text: 'Load Moves'
+            size_hint: None, None
+            size: 120,40
+            pos_hint: {'x':.1, 'top': .9}
+            on_release: root.GenerateItems()
+
+<Trainer>:
+    BoxLayout:
+        id: trainer
+        orientation: "vertical"
+        Label:
+            text: "Trainer"
+            font_size: self.width/10
+            color: 100, 0, 0, 100
+        Button:
+            text: 'Load Team'
+            size_hint: None, None
+            size: 120,40
+            pos_hint: {'x':.1, 'top': .9}
+            on_release: root.GenerateTeam()
 
 <ContentNavigationDrawer>:
 
@@ -89,31 +111,13 @@ Screen:
                 PokeDex:
             Screen:
                 name: "move"
-
-                BoxLayout:
-                    orientation: "vertical"
-                    Label:
-                        text: "Move-Dex"
-                        font_size: self.width/10
-                        color: 100, 0, 0, 100
+                MoveDex:
             Screen:
                 name: "item"
-
-                BoxLayout:
-                    orientation: "vertical"
-                    Label:
-                        text: "Item-Dex"
-                        font_size: self.width/10
-                        color: 100, 0, 0, 100
+                ItemDex:
             Screen:
                 name: "trainer"
-
-                BoxLayout:
-                    orientation: "vertical"
-                    Label:
-                        text: "Trainer"
-                        font_size: self.width/10
-                        color: 100, 0, 0, 100
+                Trainer:
         MDNavigationDrawer:
             id: nav_drawer
 
