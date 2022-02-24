@@ -1,14 +1,38 @@
 # Christopher Duke
-# TeamDex/classes.py
+# Trainer/classes.py
+from Trainer.scripts import load_pokemon_data
+
+
+def create_pokemon_from_id(pokemon_id):
+    """
+    :param pokemon_id: The id to create a pokemon from
+    :return: a pokemon with the id and the name that matches it
+    """
+    pokemon_data_frame = load_pokemon_data()
+    return Pokemon(pokemon_id, str(pokemon_data_frame.get("name")[pokemon_id - 1]))
+
+
+def add_from_id_to_team(pokemon_id, team):
+    """
+    :param pokemon_id: The id to create a pokemon from
+    :param team: The user's pokemon team
+    :return: Nothing, but the specified pokemon is created and stored in the user's pokemon team
+    """
+    team.add_pokemon(create_pokemon_from_id(pokemon_id))
+
 
 class Pokemon:
-    def __init__(self, name):
+    def __init__(self, id, name):
+        self.id = id
         self.name = name
         self.item = None
         self.move1 = None
         self.move2 = None
         self.move3 = None
         self.move4 = None
+
+    def get_id(self):
+        return self.id
 
     def get_name(self):
         return self.name
@@ -69,6 +93,18 @@ class Team:
             if name == pokemon.get_name():
                 return self.members[count]
         raise Exception("No such Pokemon on your team.")
+
+    def get_team_id_list(self):
+        pokemon_list = []
+        for pokemon in self.members:
+            pokemon_list.append(pokemon.get_id())
+        return pokemon_list
+
+    def get_team_name_list(self):
+        pokemon_list = []
+        for pokemon in self.members:
+            pokemon_list.append(pokemon.get_name())
+        return pokemon_list
 
     def add_pokemon(self, pokemon):
         if len(self.members) < self.MAXIMUM_CAPACITY:
