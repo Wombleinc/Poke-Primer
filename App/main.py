@@ -14,6 +14,8 @@ from Trainer.classes import add_from_id_to_team, Team, Pokemon
 from Trainer.scripts import get_pokemon_id_list, get_pokemon_name_list, save_team_to_csv
 from card import Card
 
+from ItemDex.scripts import get_item_id_list, get_item_name_list
+
 Window.clearcolor = (1, 1, 1, 1)
 Window.size = (540, 1140)
 
@@ -120,15 +122,16 @@ class ItemDex(BoxLayout):
 
     def GenerateItems(self):
         """These two arrays are taking place of reading the data from the DB"""
-        pokeIDList = [0, 1, 2, 3]
-        itemIDList = [4, 5, 6, 7]
-        itemIDName = ["Poke Ball", "Town Map", "Bicycle", "??????"]
+        itemIDList = get_item_id_list()
+        itemIDName = get_item_name_list()
         """The above arrays need to be fixed to access dbs"""
 
-        for item in pokeIDList:
-            iCard = PokemonCard(itemIDList[item])
-            button = iCard.CreatePokeButton(itemIDList[item], itemIDName[item])
+        i = 0
+        for item in itemIDList:
+            iCard = PokemonCard(itemIDList[i])
+            button = iCard.CreatePokeButton(itemIDList[i], itemIDName[i])
             self.ids.item.add_widget(button)
+            i += 1
 
     pass
 
