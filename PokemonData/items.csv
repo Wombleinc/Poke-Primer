@@ -1,4 +1,4 @@
-id,identifier,category_id,cost,fling_power,fling_effect_id
+id,name,category_id,cost,fling_power,fling_effect_id
 1,master-ball,34,0,,
 2,ultra-ball,34,800,,
 3,great-ball,34,600,,
