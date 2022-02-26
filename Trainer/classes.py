@@ -15,6 +15,7 @@ def create_pokemon_from_id(pokemon_id):
 
 
 class Pokemon:
+    # This class now handles variable arguments
     def __init__(self, **kwargs):
         if "id" in kwargs:
             self.id = kwargs.get("id")

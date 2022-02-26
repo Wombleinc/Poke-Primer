@@ -56,6 +56,7 @@ class PokemonCard(BoxLayout):
         return button
 
     def AddToTrainer(self, *args):
+        # This function now saves teams to json instead of csv
         ContentNavigationDrawer.pokeTeam.add_from_id_to_team(self.id)
         ContentNavigationDrawer.pokeTeam.save_team_to_json()
 
