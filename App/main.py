@@ -10,7 +10,7 @@ from kivy.uix.button import Button
 from kivy.core.window import Window
 from functools import partial
 
-from Trainer.classes import add_from_id_to_team, Team, Pokemon
+from Trainer.classes import Team, Pokemon
 from Trainer.scripts import get_pokemon_id_list, get_pokemon_name_list, save_team_to_csv
 from card import Card
 
@@ -56,20 +56,11 @@ class PokemonCard(BoxLayout):
         return button
 
     def AddToTrainer(self, *args):
-        """ Christopher Duke
-            For now, I have this function set up to find the name by looking it up with a generated id list.
-            Later, I'd like to be able to grab the pokemon name from the button and skip any referencing.
-        """
-        add_from_id_to_team(self.id, ContentNavigationDrawer.pokeTeam)
-        save_team_to_csv(ContentNavigationDrawer.pokeTeam)
+        ContentNavigationDrawer.pokeTeam.add_from_id_to_team(self.id)
+        ContentNavigationDrawer.pokeTeam.save_team_to_json()
 
 
 class ContentNavigationDrawer(BoxLayout):
-    """ Christopher Duke
-        Team object is stored here to exist between navigation drawers.
-        This allows us to add pokemon from any page to the Trainer page later.
-        Currently, we can add pokemon from PokeDex to Trainer.
-    """
     pokeTeam = Team()
     pass
 
@@ -148,9 +139,10 @@ class Trainer(BoxLayout):
 
         i = 0
         for i in range(len(pokeIDList)):
-            pCard = PokemonCard(pokeIDList[i])
-            button = pCard.CreatePokeButton(pokeIDList[i], pokeIDName[i])
-            self.ids.trainer.add_widget(button)
+            if pokeIDList[i] is not 0:
+                pCard = PokemonCard(pokeIDList[i])
+                button = pCard.CreatePokeButton(pokeIDList[i], pokeIDName[i])
+                self.ids.trainer.add_widget(button)
             i += 1
 
     pass

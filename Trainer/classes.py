@@ -1,5 +1,7 @@
 # Christopher Duke
 # Trainer/classes.py
+import json
+
 from Trainer.scripts import load_pokemon_data
 
 
@@ -9,27 +11,45 @@ def create_pokemon_from_id(pokemon_id):
     :return: a pokemon with the id and the name that matches it
     """
     pokemon_data_frame = load_pokemon_data()
-    return Pokemon(pokemon_id, str(pokemon_data_frame.get("name")[pokemon_id - 1]))
-
-
-def add_from_id_to_team(pokemon_id, team):
-    """
-    :param pokemon_id: The id to create a pokemon from
-    :param team: The user's pokemon team
-    :return: Nothing, but the specified pokemon is created and stored in the user's pokemon team
-    """
-    team.add_pokemon(create_pokemon_from_id(pokemon_id))
+    return Pokemon(id=pokemon_id, name=str(pokemon_data_frame.get("name")[pokemon_id - 1]))
 
 
 class Pokemon:
-    def __init__(self, id, name):
-        self.id = id
-        self.name = name
-        self.item = None
-        self.move1 = None
-        self.move2 = None
-        self.move3 = None
-        self.move4 = None
+    def __init__(self, **kwargs):
+        if "id" in kwargs:
+            self.id = kwargs.get("id")
+        else:
+            self.id = 0
+
+        if "name" in kwargs:
+            self.name = kwargs.get("name")
+        else:
+            self.name = None
+
+        if "item" in kwargs:
+            self.item = None
+        else:
+            self.item = None
+
+        if "move_1" in kwargs:
+            self.move_1 = None
+        else:
+            self.move_1 = None
+
+        if "move_2" in kwargs:
+            self.move_2 = None
+        else:
+            self.move_2 = None
+
+        if "move_3" in kwargs:
+            self.move_3 = None
+        else:
+            self.move_3 = None
+
+        if "move_4" in kwargs:
+            self.move_4 = None
+        else:
+            self.move_4 = None
 
     def get_id(self):
         return self.id
@@ -40,17 +60,20 @@ class Pokemon:
     def get_item(self):
         return self.item
 
-    def get_move1(self):
-        return self.move1
+    def get_move_1(self):
+        return self.move_1
 
-    def get_move2(self):
-        return self.move2
+    def get_move_2(self):
+        return self.move_2
 
-    def get_move3(self):
-        return self.move3
+    def get_move_3(self):
+        return self.move_3
 
-    def get_move4(self):
-        return self.move4
+    def get_move_4(self):
+        return self.move_4
+
+    def set_id(self, id):
+        self.id = id
 
     def set_name(self, name):
         self.name = name
@@ -58,29 +81,24 @@ class Pokemon:
     def set_item(self, item):
         self.item = item
 
-    def set_move1(self, move1):
-        self.move1 = move1
+    def set_move_1(self, move_1):
+        self.move_1 = move_1
 
-    def set_move2(self, move2):
-        self.move2 = move2
+    def set_move_2(self, move_2):
+        self.move_2 = move_2
 
-    def set_move3(self, move3):
-        self.move3 = move3
+    def set_move_3(self, move_3):
+        self.move_3 = move_3
 
-    def set_move4(self, move4):
-        self.move4 = move4
-
-    def __str__(self):
-        return "Name: " + self.get_name() + ", Item: " + str(self.get_item()) + \
-               ", Move 1: " + str(self.get_move1()) + ", Move 2: " + str(self.get_move2()) + \
-               ", Move 3: " + str(self.get_move3()) + ", Move 4: " + str(self.get_move4()) + "\n"
+    def set_move_4(self, move_4):
+        self.move_4 = move_4
 
 
 class Team:
     MAXIMUM_CAPACITY = 6
 
     def __init__(self, *args):
-        self.members = []
+        self.members = [Pokemon(), Pokemon(), Pokemon(), Pokemon(), Pokemon(), Pokemon()]
 
         if 0 < len(args) <= 6:
             for pokemon in args:
@@ -107,15 +125,90 @@ class Team:
         return pokemon_list
 
     def add_pokemon(self, pokemon):
-        if len(self.members) < self.MAXIMUM_CAPACITY:
-            self.members.append(pokemon)
+        count = 0
+        for member in self.members:
+            if member.id is not 0:
+                count += 1
 
-    def delete_pokemon(self, pokemon):
-        if len(self.members) != 0:
-            self.members.remove(pokemon)
+        if count < self.MAXIMUM_CAPACITY:
+            self.members.pop(count)
+            self.members.insert(count, pokemon)
+        else:
+            print("Team's too big! Data wasn't changed.")
 
-    def __str__(self):
-        return_string = "List of Pokemon:\n"
-        for pokemon in self.members:
-            return_string += pokemon.__str__()
-        return return_string
+    def add_from_id_to_team(self, pokemon_id):
+        """
+        :param pokemon_id: The id to create a pokemon from
+        :param team: The user's pokemon team
+        :return: Nothing, but the specified pokemon is created and stored in the user's pokemon team
+        """
+        self.add_pokemon(create_pokemon_from_id(pokemon_id))
+
+    def save_team_to_json(self):
+        team_dict = {
+            "pokemon": [
+                {
+                    "slot": 1,
+                    "id": int(self.members[0].get_id()),
+                    "name": self.members[0].get_name(),
+                    "item": self.members[0].get_item(),
+                    "move_1": self.members[0].get_move_1(),
+                    "move_2": self.members[0].get_move_2(),
+                    "move_3": self.members[0].get_move_3(),
+                    "move_4": self.members[0].get_move_4()
+                },
+                {
+                    "slot": 2,
+                    "id": int(self.members[1].get_id()),
+                    "name": self.members[1].get_name(),
+                    "item": self.members[1].get_item(),
+                    "move_1": self.members[1].get_move_1(),
+                    "move_2": self.members[1].get_move_2(),
+                    "move_3": self.members[1].get_move_3(),
+                    "move_4": self.members[1].get_move_4()
+                },
+                {
+                    "slot": 3,
+                    "id": int(self.members[2].get_id()),
+                    "name": self.members[2].get_name(),
+                    "item": self.members[2].get_item(),
+                    "move_1": self.members[2].get_move_1(),
+                    "move_2": self.members[2].get_move_2(),
+                    "move_3": self.members[2].get_move_3(),
+                    "move_4": self.members[2].get_move_4()
+                },
+                {
+                    "slot": 4,
+                    "id": int(self.members[3].get_id()),
+                    "name": self.members[3].get_name(),
+                    "item": self.members[3].get_item(),
+                    "move_1": self.members[3].get_move_1(),
+                    "move_2": self.members[3].get_move_2(),
+                    "move_3": self.members[3].get_move_3(),
+                    "move_4": self.members[3].get_move_4()
+                },
+                {
+                    "slot": 5,
+                    "id": int(self.members[4].get_id()),
+                    "name": self.members[4].get_name(),
+                    "item": self.members[4].get_item(),
+                    "move_1": self.members[4].get_move_1(),
+                    "move_2": self.members[4].get_move_2(),
+                    "move_3": self.members[4].get_move_3(),
+                    "move_4": self.members[4].get_move_4()
+                },
+                {
+                    "slot": 6,
+                    "id": int(self.members[5].get_id()),
+                    "name": self.members[5].get_name(),
+                    "item": self.members[5].get_item(),
+                    "move_1": self.members[5].get_move_1(),
+                    "move_2": self.members[5].get_move_2(),
+                    "move_3": self.members[5].get_move_3(),
+                    "move_4": self.members[5].get_move_4()
+                }
+            ]
+        }
+
+        with open("..\\Trainer\\team.json", "w") as json_file:
+            json.dump(team_dict, json_file, indent=4)
