@@ -16,24 +16,13 @@ def all_pokemon_list():
     for item in data['results']:
         id_count += 1
         all_pokemon_list[id_count] = item['name']
-    return all_pokemon_list
+        pokemon_values = all_pokemon_list.values()
+        poke_values_list = list(pokemon_values)
+    return poke_values_list
 
 
 def GetPokemonID():
-    pokemon_list = all_pokemon_list()
-    n = 0
-    i = 0
-    while i != 151:
-        for i in range(1, 152):
-            print(f"ID: {i: <3}")
-
-def GetPokeName():
-    pokemon_list = all_pokemon_list()
-    n = 0
-    i = 0
-    while i != 151:
-        for i in range(1, 152):
-            print(f"Name: {pokemon_list[i].title(): <22}")
-
-GetPokemonID()
-GetPokeName()
+    pokemon_list = []
+    for i in range(1, 152):
+        pokemon_list.append(i)
+    return pokemon_list
