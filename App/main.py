@@ -11,7 +11,7 @@ from kivymd.app import MDApp
 from ItemDex.scripts import get_item_id_list, get_item_name_list
 from MoveDex.code.scripts import move_list
 from Trainer.classes import Team
-from Trainer.scripts import get_pokemon_id_list, get_pokemon_name_list
+from PokeDex.PokeDex import *
 from card import Card
 
 import MoveDex as movedex
@@ -83,8 +83,8 @@ class PokeDex(BoxLayout):
 
     def GeneratePokemon(self):
         """These two arrays are taking place of reading the data from the DB"""
-        pokeIDList = get_pokemon_id_list()
-        pokeIDName = get_pokemon_name_list()
+        pokeIDList = GetPokemonID()
+        pokeIDName = all_pokemon_list()
         """The above arrays need to be fixed to access dbs"""
 
         for poke in pokeIDList:
