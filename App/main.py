@@ -1,24 +1,3 @@
-from functools import partial
-
-from kivy.core.window import Window
-from kivy.lang import Builder
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.label import Label
-from kivy.uix.popup import Popup
-from kivymd.app import MDApp
-
-from ItemDex.scripts import get_item_id_list, get_item_name_list
-from MoveDex.code.scripts import move_list
-from Trainer.classes import Team
-from PokeDex.PokeDex import *
-from card import Card
-
-import MoveDex as movedex
-
-Window.clearcolor = (1, 1, 1, 1)
-Window.size = (540, 1140)
-
 """
     This class creates a card for each pokemon/move/item that stores its id
     It generates a button for the asset to be displayed on the appropriate screen
@@ -86,11 +65,12 @@ class PokeDex(BoxLayout):
         pokeIDList = GetPokemonID()
         pokeIDName = all_pokemon_list()
         """The above arrays need to be fixed to access dbs"""
-
-        for poke in pokeIDList:
-            pCard = PokemonCard(poke)
-            button = pCard.CreatePokeButton(poke, pokeIDName[poke - 1])
-            self.ids.poke.add_widget(button)
+        i = 0
+        for i in range(len(pokeIDList)):
+                pCard = PokemonCard(pokeIDList[i])
+                button = pCard.CreatePokeButton(pokeIDList[i], pokeIDName[i])
+                self.ids.poke.add_widget(button)
+                i += 1
 
     pass
 
@@ -160,7 +140,7 @@ class Trainer(BoxLayout):
         pokeIDName = ContentNavigationDrawer.pokeTeam.get_team_name_list()
 
         for i in range(len(pokeIDList)):
-            if pokeIDList[i] is not 0:
+            if pokeIDList[i] != 0:
                 pCard = PokemonCard(pokeIDList[i])
                 button = pCard.CreatePokeButton(pokeIDList[i], pokeIDName[i])
                 self.ids.trainer.add_widget(button)
