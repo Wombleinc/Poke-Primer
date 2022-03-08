@@ -1,63 +1,65 @@
 # Christopher Duke
 # Trainer/scripts.py
-import csv
-import os
-import pandas
+import requests
+import json
 
 POKEDEX_SIZE = 10
 
 
-def get_pokemon_id_list():
-    """
-    :return: list of all pokemon in the defined pokedex range by id
-    """
-    pokemon_data_frame = load_pokemon_data()
-    pokemon_id_list = []
-    i = 0
-    for i in range(POKEDEX_SIZE):
-        pokemon_id_list.append(pokemon_data_frame.get("id")[i])
-        i += 1
-    return pokemon_id_list
+def request_data(url):
+    urlResult = requests.get(url)
+    urlResult = urlResult.text
+    pokeApiData = json.loads(urlResult)
+    return pokeApiData
 
 
-def get_pokemon_name_list():
-    """
-    :return: list of all pokemon in the defined pokedex range by name
-    """
-    pokemon_data_frame = load_pokemon_data()
-    pokemon_name_list = []
-    i = 0
-    for i in range(POKEDEX_SIZE):
-        pokemon_name_list.append(pokemon_data_frame.get("name")[i])
-        i += 1
-    return pokemon_name_list
+def get_pokemon_name(pokemon_id):
+    index = pokemon_id - 1
+    pokemon_data = load_pokemon_data()
+
+    return pokemon_data['pokemon'][index]['Name']
+
+
+def get_pokemon_genus(pokemon_id):
+    index = pokemon_id - 1
+    pokemon_data = load_pokemon_data()
+
+    return pokemon_data['pokemon'][index]['Genus']
+
+
+def all_pokemon_name_list():
+    pokemon_data = load_pokemon_data()
+    all_pokemon_list = {}
+
+    for count, pokemon in enumerate(pokemon_data['pokemon']):
+        if count < POKEDEX_SIZE:
+            all_pokemon_list[count + 1] = pokemon_data['pokemon'][count]['Name']
+        else:
+            pass
+
+    return all_pokemon_list
+
+
+def all_pokemon_id_list():
+    pokemon_data = load_pokemon_data()
+
+    all_pokemon_list = {}
+
+    for i in range(len(pokemon_data['pokemon'])):
+        if i < POKEDEX_SIZE:
+            all_pokemon_list[i + 1] = i + 1
+        else:
+            pass
+
+    return all_pokemon_list
 
 
 def load_pokemon_data():
     """
-    :return: a data frame of pokemon information to be read.
-             This data is read from \PokemonData\Pokemon_edit.csv
+    :return: a json file of pokemon information to be read.
+             This data is read from \PokemonData\pokemon_data.json
     """
-    ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-    # Define dataset path in reference to the root path
-    DATASET_PATH = os.path.join(ROOT_DIR, '..\\PokemonData\\Pokemon_edit.csv')
+    with open("..\\PokemonData\\pokemon_data.json", "r") as json_file:
+        pokemon_data = json.load(json_file)
 
-    # Read in dataset
-    return pandas.read_csv(DATASET_PATH)
-
-
-def save_team_to_csv(pokemon_team):
-    """
-    :param pokemon_team: The user's pokemon team
-    :return: Nothing, but a csv file is saved at \Trainer\team.csv with the user's pokemon team info
-    """
-    header = ['#', 'ID', 'Pokemon', 'Held Item', 'Move 1', 'Move 2', 'Move 3', 'Move 4']
-
-    with open('..\\Trainer\\team.csv', 'w', newline='', encoding='UTF8') as f:
-        writer = csv.writer(f)
-
-        writer.writerow(header)
-
-        for count, pokemon in enumerate(pokemon_team.members):
-            writer.writerow([count + 1, pokemon.get_id(), pokemon.get_name(), pokemon.get_item(),
-                             pokemon.get_move1(), pokemon.get_move2(), pokemon.get_move3(), pokemon.get_move4()])
+    return pokemon_data

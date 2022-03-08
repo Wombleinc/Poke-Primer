@@ -10,8 +10,9 @@ from kivy.uix.button import Button
 from kivy.core.window import Window
 from functools import partial
 
-from Trainer.classes import Team, Pokemon
-from Trainer.scripts import get_pokemon_id_list, get_pokemon_name_list, save_team_to_csv
+from Trainer.classes import Team
+from Trainer.scripts import all_pokemon_id_list, all_pokemon_name_list
+
 from card import Card
 
 from ItemDex.scripts import get_item_id_list, get_item_name_list
@@ -74,13 +75,13 @@ class PokeDex(BoxLayout):
 
     def GeneratePokemon(self):
         """These two arrays are taking place of reading the data from the DB"""
-        pokeIDList = get_pokemon_id_list()
-        pokeIDName = get_pokemon_name_list()
+        pokeIDList = all_pokemon_id_list()
+        pokeIDName = all_pokemon_name_list()
         """The above arrays need to be fixed to access dbs"""
 
         for poke in pokeIDList:
             pCard = PokemonCard(poke)
-            button = pCard.CreatePokeButton(poke, pokeIDName[poke - 1])
+            button = pCard.CreatePokeButton(poke, pokeIDName[poke])
             self.ids.poke.add_widget(button)
     pass
 

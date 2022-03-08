@@ -2,7 +2,7 @@
 # Trainer/classes.py
 import json
 
-from Trainer.scripts import load_pokemon_data
+from Trainer.scripts import all_pokemon_name_list
 
 
 def create_pokemon_from_id(pokemon_id):
@@ -10,8 +10,7 @@ def create_pokemon_from_id(pokemon_id):
     :param pokemon_id: The id to create a pokemon from
     :return: a pokemon with the id and the name that matches it
     """
-    pokemon_data_frame = load_pokemon_data()
-    return Pokemon(id=pokemon_id, name=str(pokemon_data_frame.get("name")[pokemon_id - 1]))
+    return Pokemon(id=pokemon_id, name=str(all_pokemon_name_list()[pokemon_id]))
 
 
 class Pokemon:
@@ -128,7 +127,7 @@ class Team:
     def add_pokemon(self, pokemon):
         count = 0
         for member in self.members:
-            if member.id is not 0:
+            if member.id != 0:
                 count += 1
 
         if count < self.MAXIMUM_CAPACITY:
