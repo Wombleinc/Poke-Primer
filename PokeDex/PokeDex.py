@@ -1,16 +1,17 @@
 import requests
 import json
 
+
+
+POKEDEX_SIZE = 10
+pokemon_id = 1
+
 def request_data(url):
     urlResult = requests.get(url)
     urlResult = urlResult.text
     pokeApiData = json.loads(urlResult)
     return pokeApiData
 
-
-pokemon_id = '1'
-
-# making pokemon class to collect data from request
 class Pokemon:
     # collect attribute data for class
     def pokemon_attributes(pokemon_id):
@@ -132,24 +133,54 @@ class Pokemon:
 
         return info_string
 
+def get_pokemon_name(pokemon_id):
+    index = pokemon_id - 1
+    pokemon_data = load_pokemon_data()
 
-def all_pokemon_list():
-    url = 'https://pokeapi.co/api/v2/pokemon/?offset=0&limit=152'
-    data = request_data(url)
+    return pokemon_data['pokemon'][index]['Name']
+
+
+def get_pokemon_genus(pokemon_id):
+    index = pokemon_id - 1
+    pokemon_data = load_pokemon_data()
+
+    return pokemon_data['pokemon'][index]['Genus']
+
+
+def all_pokemon_name_list():
+    pokemon_data = load_pokemon_data()
     all_pokemon_list = {}
-    id_count = -1
-    for item in data['results']:
-        id_count += 1
-        all_pokemon_list[id_count] = item['name']
-        pokemon_values = all_pokemon_list.values()
-        poke_values_list = list(pokemon_values)
-    return poke_values_list
+
+    for count, pokemon in enumerate(pokemon_data['pokemon']):
+        if count < POKEDEX_SIZE:
+            all_pokemon_list[count + 1] = pokemon_data['pokemon'][count]['Name']
+        else:
+            pass
+
+    return all_pokemon_list
 
 
-def GetPokemonID():
-    pokemon_list = []
-    for i in range(1, 152):
-        pokemon_list.append(i)
-    return pokemon_list
+def all_pokemon_id_list():
+    pokemon_data = load_pokemon_data()
 
+    all_pokemon_list = {}
+
+    for i in range(len(pokemon_data['pokemon'])):
+        if i < POKEDEX_SIZE:
+            all_pokemon_list[i + 1] = i + 1
+        else:
+            pass
+
+    return all_pokemon_list
+
+
+def load_pokemon_data():
+    """
+    :return: a json file of pokemon information to be read.
+             This data is read from \PokemonData\pokemon_data.json
+    """
+    with open("..\\PokemonData\\pokemon_data.json", "r") as json_file:
+        pokemon_data = json.load(json_file)
+
+    return pokemon_data
 
