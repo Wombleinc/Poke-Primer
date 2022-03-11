@@ -3,19 +3,55 @@
 
 
 <PokeDex>:
-    BoxLayout:
+    MDBoxLayout:
+        md_bg_color: .64, .72, .66, 1
+        padding: 10
         id: poke
         orientation: "vertical"
+        size_hint_y: .9
         Label:
+            size_hint: 1, None
             text: "Poke-Dex"
+            font_name: "PokeFont"
             font_size: self.width/10
-            color: 100, 0, 0, 100
-        Button:
-            text: 'Load Pokemon'
-            size_hint: None, None
-            size: 120,40
-            pos_hint: {'x':.1, 'top': .9}
-            on_release: root.GeneratePokemon()
+            color: .17, .23, .2, 1
+        BoxLayout:
+            size_hint: 1, None
+            orientation: "horizontal"
+            Button:
+                text: 'Number'
+                size_hint: .3, .5
+                pos_hint: {'x':.1, 'top': .9}
+                background_normal: 'dark_bg.jpg'
+                background_down: 'light_bg.jpg'
+                color: .64, .72, .66, 1
+                font_name: "PokeFont"
+                on_release: root.GeneratePokemon()
+            Button:
+                text:"Name"
+                font_name: "PokeFont"
+                pos_hint: {'x':.5, 'top': .9}
+                size_hint: .3, .5
+                background_normal: 'dark_bg.jpg'
+                background_down: 'light_bg.jpg'
+                color: .64, .72, .66, 1
+                font_name: "PokeFont"
+            Button:
+                text:"Type"
+                font_name: "PokeFont"
+                pos_hint: {'x':.9, 'top': .9}
+                size_hint: .3, .5
+                background_normal: 'dark_bg.jpg'
+                background_down: 'light_bg.jpg'
+                color: .64, .72, .66, 1
+                font_name: "PokeFont"
+                
+        ScrollView:
+            GridLayout:
+                id: poke_grid
+                size_hint:1, None
+                height: self.minimum_height
+                cols:1
 
 <MoveDex>:
     BoxLayout:
@@ -95,6 +131,8 @@ Screen:
 
     MDToolbar:
         id: toolbar
+        md_bg_color: app.theme_cls.accent_color
+        font_name: "PokeFont"
         pos_hint: {"top": 1}
         elevation: 10
         title: "Poke-Primer"
