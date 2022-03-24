@@ -5,10 +5,21 @@
 """
 from Trainer.scripts import get_pokemon_genus, get_pokemon_name
 
-
-class Card:
+class CardPokemon:
 
     def __init__(self, id):
         self.number = str(id)
         self.name = get_pokemon_name(id)
         self.description = get_pokemon_genus(id)
+
+class CardItem:
+    def __init__(self, id):
+        self.number = str(id)
+        self.name = get_item_name(id)
+        self.description = get_item_genus(id)
+
+class CardMove:
+    def __init__(self, id):
+        self.number = str(id)
+        self.name = get_move_name(id)
+        self.description = get_move_genus(id)

@@ -11452,16 +11452,6 @@
          "Sprite URL": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/gram-3.png"
       },
       {
-         "ID": 667,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
          "ID": 668,
          "Name": "Dragon Gem",
          "Cost": 200,
@@ -11519,16 +11509,6 @@
             "generation-viii"
          ],
          "Sprite URL": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dna-splicers.png"
-      },
-      {
-         "ID": 672,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
       },
       {
          "ID": 673,
@@ -11633,16 +11613,6 @@
             "generation-viii"
          ],
          "Sprite URL": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dropped-item.png"
-      },
-      {
-         "ID": 680,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
       },
       {
          "ID": 681,
@@ -12611,106 +12581,6 @@
          "Sprite URL": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png"
       },
       {
-         "ID": 750,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 751,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 752,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 753,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 754,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 755,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 756,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 757,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 758,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 759,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
          "ID": 760,
          "Name": "Latiasite",
          "Cost": 0,
@@ -12789,26 +12659,6 @@
          "Sprite URL": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/shalour-sable.png"
       },
       {
-         "ID": 766,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 767,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
          "ID": 768,
          "Name": "Mega Charm",
          "Cost": 0,
@@ -12846,16 +12696,6 @@
             "generation-viii"
          ],
          "Sprite URL": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/devon-parts.png"
-      },
-      {
-         "ID": 771,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
       },
       {
          "ID": 772,
@@ -12923,26 +12763,6 @@
          "Sprite URL": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/key-to-room-6.png"
       },
       {
-         "ID": 777,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 778,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
          "ID": 779,
          "Name": "Devon Scuba Gear",
          "Cost": 0,
@@ -12967,16 +12787,6 @@
             "generation-viii"
          ],
          "Sprite URL": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/contest-costume--jacket.png"
-      },
-      {
-         "ID": 781,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
       },
       {
          "ID": 782,
@@ -13107,16 +12917,6 @@
             "generation-viii"
          ],
          "Sprite URL": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mega-anklet.png"
-      },
-      {
-         "ID": 792,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
       },
       {
          "ID": 793,
@@ -13364,26 +13164,6 @@
             "generation-viii"
          ],
          "Sprite URL": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/beedrillite.png"
-      },
-      {
-         "ID": 812,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 813,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
       },
       {
          "ID": 814,
@@ -13826,296 +13606,6 @@
             "generation-viii"
          ],
          "Sprite URL": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mewnium-z--held.png"
-      },
-      {
-         "ID": 848,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 849,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 850,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 851,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 852,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 853,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 854,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 855,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 856,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 857,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 858,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 859,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 860,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 861,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 862,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 863,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 864,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 865,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 866,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 867,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 868,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 869,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 870,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 871,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 872,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 873,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 874,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 875,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
-      },
-      {
-         "ID": 876,
-         "Name": "unknown",
-         "Cost": 0,
-         "Attribute List": [],
-         "Category": "unknown",
-         "Effect": "",
-         "Generation": ["unknown"],
-         "Sprite URL": "unknown"
       },
       {
          "ID": 877,

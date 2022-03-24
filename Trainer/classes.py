@@ -1,6 +1,8 @@
 # Christopher Duke
 # Trainer/classes.py
 import json
+import sys
+sys.path.append('/Poke-Primer-main/')
 
 from Trainer.scripts import all_pokemon_name_list
 
@@ -210,5 +212,5 @@ class Team:
             ]
         }
 
-        with open("..\\Trainer\\team.json", "w") as json_file:
+        with open("Trainer/team.json", "w") as json_file:
             json.dump(team_dict, json_file, indent=4)

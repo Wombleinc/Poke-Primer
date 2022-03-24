@@ -26,7 +26,58 @@
                 background_down: 'light_bg.jpg'
                 color: .64, .72, .66, 1
                 font_name: "PokeFont"
-                on_release: root.GeneratePokemon()
+                on_release: root.GeneratePokemon(0)
+            Button:
+                text:"Name"
+                font_name: "PokeFont"
+                pos_hint: {'x':.5, 'top': .9}
+                size_hint: .3, .5
+                background_normal: 'dark_bg.jpg'
+                background_down: 'light_bg.jpg'
+                color: .64, .72, .66, 1
+                on_release: root.GeneratePokemon(1)
+            Button:
+                text:"Type"
+                font_name: "PokeFont"
+                pos_hint: {'x':.9, 'top': .9}
+                size_hint: .3, .5
+                background_normal: 'dark_bg.jpg'
+                background_down: 'light_bg.jpg'
+                color: .64, .72, .66, 1
+                on_release: root.GeneratePokemon(2)
+                
+        ScrollView:
+            GridLayout:
+                id: poke_grid
+                size_hint:1, None
+                height: self.minimum_height
+                cols:1
+
+<MoveDex>:
+    MDBoxLayout:
+        md_bg_color: .64, .72, .66, 1
+        padding: 10
+        id: move
+        orientation: "vertical"
+        size_hint_y: .9
+        Label:
+            size_hint: 1, None
+            text: "Move-Dex"
+            font_name: "PokeFont"
+            font_size: self.width/10
+            color: .17, .23, .2, 1
+        BoxLayout:
+            size_hint: 1, None
+            orientation: "horizontal"
+            Button:
+                text: 'Number'
+                size_hint: .3, .5
+                pos_hint: {'x':.1, 'top': .9}
+                background_normal: 'dark_bg.jpg'
+                background_down: 'light_bg.jpg'
+                color: .64, .72, .66, 1
+                font_name: "PokeFont"
+                on_release: root.GenerateMove(0)
             Button:
                 text:"Name"
                 font_name: "PokeFont"
@@ -36,8 +87,114 @@
                 background_down: 'light_bg.jpg'
                 color: .64, .72, .66, 1
                 font_name: "PokeFont"
+                on_release: root.GenerateMove(1)
             Button:
                 text:"Type"
+                font_name: "PokeFont"
+                pos_hint: {'x':.9, 'top': .9}
+                size_hint: .3, .5
+                background_normal: 'dark_bg.jpg'
+                background_down: 'light_bg.jpg'
+                color: .64, .72, .66, 1
+                font_name: "PokeFont"
+                on_release: root.GenerateMove(2)
+                
+        ScrollView:
+            GridLayout:
+                id: move_grid
+                size_hint:1, None
+                height: self.minimum_height
+                cols:1
+
+<ItemDex>:
+    MDBoxLayout:
+        md_bg_color: .64, .72, .66, 1
+        padding: 10
+        id: item
+        orientation: "vertical"
+        size_hint_y: .9
+        Label:
+            size_hint: 1, None
+            text: "Item-Dex"
+            font_name: "PokeFont"
+            font_size: self.width/10
+            color: .17, .23, .2, 1
+        BoxLayout:
+            size_hint: 1, None
+            orientation: "horizontal"
+            Button:
+                text: 'Number'
+                size_hint: .3, .5
+                pos_hint: {'x':.1, 'top': .9}
+                background_normal: 'dark_bg.jpg'
+                background_down: 'light_bg.jpg'
+                color: .64, .72, .66, 1
+                font_name: "PokeFont"
+                on_release: root.GenerateItem(0)
+            Button:
+                text:"Name"
+                font_name: "PokeFont"
+                pos_hint: {'x':.5, 'top': .9}
+                size_hint: .3, .5
+                background_normal: 'dark_bg.jpg'
+                background_down: 'light_bg.jpg'
+                color: .64, .72, .66, 1
+                font_name: "PokeFont"
+                on_release: root.GenerateItem(1)
+            Button:
+                text:"Category"
+                font_name: "PokeFont"
+                pos_hint: {'x':.9, 'top': .9}
+                size_hint: .3, .5
+                background_normal: 'dark_bg.jpg'
+                background_down: 'light_bg.jpg'
+                color: .64, .72, .66, 1
+                font_name: "PokeFont"
+                on_release: root.GenerateItem(2)
+                
+        ScrollView:
+            GridLayout:
+                id: item_grid
+                size_hint:1, None
+                height: self.minimum_height
+                cols:1
+
+<Trainer>:
+    MDBoxLayout:
+        md_bg_color: .64, .72, .66, 1
+        padding: 10
+        id: trainer
+        orientation: "vertical"
+        size_hint_y: .9
+        Label:
+            size_hint: 1, None
+            text: "Trainer"
+            font_name: "PokeFont"
+            font_size: self.width/10
+            color: .17, .23, .2, 1
+        BoxLayout:
+            size_hint: 1, None
+            orientation: "horizontal"
+            Button:
+                text: 'Pokemon'
+                size_hint: .3, .5
+                pos_hint: {'x':.1, 'top': .9}
+                background_normal: 'dark_bg.jpg'
+                background_down: 'light_bg.jpg'
+                color: .64, .72, .66, 1
+                font_name: "PokeFont"
+                on_release: root.GenerateTeam()
+            Button:
+                text:"Moves"
+                font_name: "PokeFont"
+                pos_hint: {'x':.5, 'top': .9}
+                size_hint: .3, .5
+                background_normal: 'dark_bg.jpg'
+                background_down: 'light_bg.jpg'
+                color: .64, .72, .66, 1
+                font_name: "PokeFont"
+            Button:
+                text:"Items"
                 font_name: "PokeFont"
                 pos_hint: {'x':.9, 'top': .9}
                 size_hint: .3, .5
@@ -48,55 +205,10 @@
                 
         ScrollView:
             GridLayout:
-                id: poke_grid
+                id: trainer_grid
                 size_hint:1, None
                 height: self.minimum_height
                 cols:1
-
-<MoveDex>:
-    BoxLayout:
-        id: move
-        orientation: "vertical"
-        Label:
-            text: "Move-Dex"
-            font_size: self.width/10
-            color: 100, 0, 0, 100
-        Button:
-            text: 'Load Moves'
-            size_hint: None, None
-            size: 120,40
-            pos_hint: {'x':.1, 'top': .9}
-            on_release: root.GenerateMoves()
-
-<ItemDex>:
-    BoxLayout:
-        id: item
-        orientation: "vertical"
-        Label:
-            text: "Item-Dex"
-            font_size: self.width/10
-            color: 100, 0, 0, 100
-        Button:
-            text: 'Load Moves'
-            size_hint: None, None
-            size: 120,40
-            pos_hint: {'x':.1, 'top': .9}
-            on_release: root.GenerateItems()
-
-<Trainer>:
-    BoxLayout:
-        id: trainer
-        orientation: "vertical"
-        Label:
-            text: "Trainer"
-            font_size: self.width/10
-            color: 100, 0, 0, 100
-        Button:
-            text: 'Load Team'
-            size_hint: None, None
-            size: 120,40
-            pos_hint: {'x':.1, 'top': .9}
-            on_release: root.GenerateTeam()
 
 <ContentNavigationDrawer>:
 
