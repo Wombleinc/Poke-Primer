@@ -1,5 +1,8 @@
 import os
 import pandas
+import json
+import sys
+sys.path.append('/Poke-Primer-main/')
 
 
 def load_item_data():
@@ -10,23 +13,41 @@ def load_item_data():
 
 
 def get_item_id_list():
-    item_data_frame = load_item_data()
+    with open("PokemonData/item.json", 'r') as json_file:
+        item_dictionary = json.load(json_file)
     item_id_list = []
-    counter = 0
-    for i in range(0, 1607):
-        item_id_list.append(item_data_frame.get("id")[i])
-        counter += 1
+    for i in range(0, 1658):
+        item_id_list.append(item_dictionary["item"][i]["ID"])
     return item_id_list
 
 
 def get_item_name_list():
-    item_data_frame = load_item_data()
+    with open("PokemonData/item.json", 'r') as json_file:
+        item_dictionary = json.load(json_file)
     item_name_list = []
-    counter = 0
-    for i in range(0, 1607):
-        item_name_list.append(item_data_frame.get("name")[i].replace('-', ' ').title())
-        counter += 1
+    for i in range(0, 1658):
+        item_name_list.append(item_dictionary["item"][i]["Name"])
     return item_name_list
+
+def get_item_category_list():
+    with open("PokemonData/item.json", 'r') as json_file:
+        item_dictionary = json.load(json_file)
+    item_category_list = []
+    for i in range(0, 1658):
+        item_category_list.append(item_dictionary["item"][i]["Category"])
+    return item_category_list
+
+def get_item_id_name_cat_list():
+    with open("PokemonData/item.json", 'r') as json_file:
+        item_dictionary = json.load(json_file)
+    item_id_name_cat_list = []
+    for i in range(0, 50):   # Shortened to 50 items to decrease load times
+        item_id_name_cat_list.append(dict(id=item_dictionary["item"][i]["ID"],
+                                          name=item_dictionary["item"][i]["Name"],
+                                          category=item_dictionary["item"][i]["Category"]))
+    return item_id_name_cat_list
+
+
 
 
 #def write_items_to_json():

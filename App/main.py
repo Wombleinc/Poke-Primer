@@ -25,20 +25,13 @@ from card import CardPokemon
 from card import CardItem
 from card import CardMove
 
-from ItemDex.scripts import get_item_id_list, get_item_name_list
+from ItemDex.scripts import get_item_id_name_cat_list
 
 ROOT_DIR = os.path.split(os.path.dirname(__file__))[0] + "\\"
 
 LabelBase.register(name='PokeFont',
                    fn_regular=ROOT_DIR + 'Pokemon Classic.ttf')
 Window.size = (350, 700)
-
-""" 
-    This class creates a card for each pokemon/move/item that stores its id
-    It generates a button for the asset to be displayed on the appropriate screen
-    When the button is clicked, it creates a popup displaying the details about the asset
-    Note: Nothing in here should need to be touched to connect to DBs
- """
 
 class MoveCard(BoxLayout):
     def __init__(self, id):
@@ -47,7 +40,7 @@ class MoveCard(BoxLayout):
     def GetCardMoveData(self, *args):
         print(self.id)
         myCard = CardMove(self.id)
-        pokemon = MDBoxLayout(orientation="horizontal")
+        move = MDBoxLayout(orientation="horizontal")
         buttons = MDBoxLayout(orientation="horizontal")
         content = MDBoxLayout(orientation="vertical")
         self.popup = Popup(title=myCard.number + " " +myCard.name,
@@ -82,9 +75,9 @@ class MoveCard(BoxLayout):
                         background_down= 'light_bg.jpg',
                         color=(.64, .72, .66, 1),
                         font_name="PokeFont")
-        pokemon.add_widget(image)
-        pokemon.add_widget(descLabel)
-        content.add_widget(pokemon)
+        move.add_widget(image)
+        move.add_widget(descLabel)
+        content.add_widget(move)
         buttons.add_widget(button)
         buttons.add_widget(close_btn)
         content.add_widget(buttons)
@@ -118,6 +111,7 @@ class MoveCard(BoxLayout):
         ContentNavigationDrawer.pokeTeam.add_from_id_to_team(self.id)
         ContentNavigationDrawer.pokeTeam.save_team_to_json()
 
+
 class ItemCard(BoxLayout):
     def __init__(self, id):
         self.id = id
@@ -125,7 +119,7 @@ class ItemCard(BoxLayout):
     def GetCardItemData(self, *args):
             print(self.id)
             myCard = CardItem(self.id)
-            pokemon = MDBoxLayout(orientation="horizontal")
+            item = MDBoxLayout(orientation="horizontal")
             buttons = MDBoxLayout(orientation="horizontal")
             content = MDBoxLayout(orientation="vertical")
             self.popup = Popup(title=myCard.number + " " +myCard.name,
@@ -160,14 +154,14 @@ class ItemCard(BoxLayout):
                             background_down= 'light_bg.jpg',
                             color=(.64, .72, .66, 1),
                             font_name="PokeFont")
-            pokemon.add_widget(image)
-            pokemon.add_widget(descLabel)
-            content.add_widget(pokemon)
+            item.add_widget(image)
+            item.add_widget(descLabel)
+            content.add_widget(item)
             buttons.add_widget(button)
             buttons.add_widget(close_btn)
             content.add_widget(buttons)
             self.popup.open()
-    def CreateItemButton(self, item_id, item_name):
+    def CreateItemButton(self, item_id, item_name, item_category):
         self.id = item_id
         full_button = BoxLayout(orientation='horizontal',
                                 size_hint=(None, None), height=50)
@@ -180,8 +174,8 @@ class ItemCard(BoxLayout):
                         background_normal=ROOT_DIR + 'dark_bg.jpg',
                         background_down=ROOT_DIR + 'light_bg.jpg',
                         color=(.64, .72, .66, 1), font_name="PokeFont")
-        button.bind(on_release=partial(self.GetCardPokemonData))
-        ball_button = Button(background_normal=ROOT_DIR + 'icon_ball.png',
+        button.bind(on_release=partial(self.GetCardItemData))
+        ball_button = Button(background_normal=ROOT_DIR + 'icon_item.png',
                              size_hint=(None, None), size=(40, 40),
                              pos=(50, 0), border=(0, 0, 0, 0))
         ball_button.bind(on_release=partial(self.AddToTrainer))
@@ -194,6 +188,7 @@ class ItemCard(BoxLayout):
         # This function now saves teams to json instead of csv
         ContentNavigationDrawer.pokeTeam.add_from_id_to_team(self.id)
         ContentNavigationDrawer.pokeTeam.save_team_to_json()
+
 
 class PokemonCard(BoxLayout):
     def __init__(self, id):
@@ -275,20 +270,10 @@ class PokemonCard(BoxLayout):
         ContentNavigationDrawer.pokeTeam.save_team_to_json()
 
 
-class ContentNavigationDrawer(BoxLayout):
-    pokeTeam = Team()
-    pass
-
-
-""" 
-    This class controls the pokemon buttons on the PokeDex screen
-    This needs to be hooked up to the DB with a list of IDs and Names
-"""
-
-
 class PokeDex(BoxLayout):
 
     def GeneratePokemon(self, sort):
+        self.ids.poke_grid.clear_widgets()
         if sort == 0:
             """These two arrays are taking place of reading the data from the DB"""
             pokeIDList = all_pokemon_id_list()
@@ -309,99 +294,52 @@ class PokeDex(BoxLayout):
             full_button = pCard.CreatePokeButton(poke, pokeIDName[poke])
             self.ids.poke_grid.add_widget(full_button)        
     pass
-class MoveDex(BoxLayout):
-
-    def GenerateMove(self, sort):
-        if sort == 0:
-            """These two arrays are taking place of reading the data from the DB"""
-            pokeIDList = all_pokemon_id_list()
-            pokeIDName = all_pokemon_name_list()
-            """The above arrays need to be fixed to access dbs"""
-        if sort == 1:
-            """These two arrays are taking place of reading the data from the DB"""
-            pokeIDList = all_pokemon_id_list()
-            pokeIDName = all_pokemon_name_list()
-            """The above arrays need to be fixed to access dbs"""
-        if sort == 2:
-            """These two arrays are taking place of reading the data from the DB"""
-            pokeIDList = all_pokemon_id_list()
-            pokeIDName = all_pokemon_name_list()
-            """The above arrays need to be fixed to access dbs"""
-        for poke in pokeIDList:
-            pCard = MoveCard(poke)
-            full_button = pCard.CreateMoveButton(poke, pokeIDName[poke])
-            self.ids.poke_grid.add_widget(full_button)        
-    pass
-
-class ItemDex(BoxLayout):
-
-    def GenerateItem(self, sort):
-        if sort == 0:
-            """These two arrays are taking place of reading the data from the DB"""
-            pokeIDList = all_pokemon_id_list()
-            pokeIDName = all_pokemon_name_list()
-            """The above arrays need to be fixed to access dbs"""
-        if sort == 1:
-            """These two arrays are taking place of reading the data from the DB"""
-            pokeIDList = all_pokemon_id_list()
-            pokeIDName = all_pokemon_name_list()
-            """The above arrays need to be fixed to access dbs"""
-        if sort == 2:
-            """These two arrays are taking place of reading the data from the DB"""
-            pokeIDList = all_pokemon_id_list()
-            pokeIDName = all_pokemon_name_list()
-            """The above arrays need to be fixed to access dbs"""
-        for poke in pokeIDList:
-            pCard = ItemCard(poke)
-            full_button = pCard.CreateItemButton(poke, pokeIDName[poke])
-            self.ids.poke_grid.add_widget(full_button)        
-    pass
-
-""" 
-    This class controls the move buttons on the MoveDex screen
- """
 
 
 class MoveDex(BoxLayout):
 
-    def GenerateMoves(self):
+    def GenerateMoves(self, sort):
 
-        for move in MoveDex_move_list:
-            mCard = PokemonCard(move.move_id)  # n + 1?
-            button = mCard.CreatePokeButton(move.move_id, move.name)
-            self.ids.move.add_widget(button)
+        if sort == 0:
+            itemIDNameCatList = get_item_id_name_cat_list()
+            newList = sorted(itemIDNameCatList, key=lambda i: i['id'])
+
+        if sort == 1:
+            itemIDNameCatList = get_item_id_name_cat_list()
+            newList = sorted(itemIDNameCatList, key=lambda i: i['name'])
+
+        if sort == 2:
+            itemIDNameCatList = get_item_id_name_cat_list()
+            newList = sorted(itemIDNameCatList, key=lambda i: i['category'])
+
+        for item in newList:
+            iCard = ItemCard(item['id'])
+            full_button = iCard.CreateItemButton(item['id'], item['name'], item['category'])
+            self.ids.move_grid.add_widget(full_button)
 
     pass
 
 
-""" 
-    This class controls the item buttons on the PokeDex screen
-    This needs to be hooked up to the DB with a list of IDs and Names
- """
-
-
 class ItemDex(BoxLayout):
 
-    def GenerateItems(self):
-        """These two arrays are taking place of reading the data from the DB"""
-        itemIDList = get_item_id_list()
-        itemIDName = get_item_name_list()
-        """The above arrays need to be fixed to access dbs"""
-
+    def GenerateItems(self, sort):
+        self.ids.item_grid.clear_widgets()
+        if sort == 0:
+            itemIDNameCatList = get_item_id_name_cat_list()
+            newList = sorted(itemIDNameCatList, key=lambda i: i['id'])
+        if sort == 1:
+            itemIDNameCatList = get_item_id_name_cat_list()
+            newList = sorted(itemIDNameCatList, key=lambda i: i['name'])
+        if sort == 2:
+            itemIDNameCatList = get_item_id_name_cat_list()
+            newList = sorted(itemIDNameCatList, key=lambda i: i['category'])
         i = 0
-        for item in itemIDList:
-            iCard = PokemonCard(itemIDList[i])
-            button = iCard.CreatePokeButton(itemIDList[i], itemIDName[i])
-            self.ids.item.add_widget(button)
-            i += 1
+        for item in newList:
+            iCard = ItemCard(item['id'])
+            full_button = iCard.CreateItemButton(item['id'], item['name'], item['category'])
+            self.ids.item_grid.add_widget(full_button)
 
     pass
-
-
-""" 
-    This class controls the team buttons on the PokeDex screen
-    This needs to be hooked up to where the team info is being stored
-"""
 
 
 class Trainer(BoxLayout):
@@ -409,18 +347,21 @@ class Trainer(BoxLayout):
     def GenerateTeam(self):
         pokeIDList = ContentNavigationDrawer.pokeTeam.get_team_id_list()
         pokeIDName = ContentNavigationDrawer.pokeTeam.get_team_name_list()
-
+        self.ids.trainer_grid.clear_widgets()
         i = 0
         for i in range(len(pokeIDList)):
             if pokeIDList[i] is not 0:
                 pCard = PokemonCard(pokeIDList[i])
                 button = pCard.CreatePokeButton(pokeIDList[i], pokeIDName[i])
-                self.ids.trainer.add_widget(button)
+                self.ids.trainer_grid.add_widget(button)
             i += 1
 
     pass
 
 
+class ContentNavigationDrawer(BoxLayout):
+    pokeTeam = Team()
+    pass
 
 
 class PokePrimerApp(MDApp):

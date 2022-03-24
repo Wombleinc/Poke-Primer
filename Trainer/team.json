@@ -2,8 +2,8 @@
     "pokemon": [
         {
             "slot": 1,
-            "id": 3,
-            "name": "Venusaur",
+            "id": 1,
+            "name": "Bulbasaur",
             "item": null,
             "move_1": null,
             "move_2": null,
@@ -12,8 +12,8 @@
         },
         {
             "slot": 2,
-            "id": 8,
-            "name": "Wartortle",
+            "id": 0,
+            "name": null,
             "item": null,
             "move_1": null,
             "move_2": null,

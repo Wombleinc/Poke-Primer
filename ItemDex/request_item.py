@@ -1,6 +1,7 @@
 import requests
 import json
-
+import sys
+sys.path.append('/Poke-Primer-main/')
 
 def request_item_from_url(url):
     url_result = requests.get(url)
@@ -10,7 +11,7 @@ def request_item_from_url(url):
 
 
 def request_item(item_id):
-    with open('..\\PokemonData\\item.json', 'r') as json_file:
+    with open("PokemonData/item.json", 'r') as json_file:
         item_dictionary = json.load(json_file)
     index = item_id - 1
     return item_dictionary["item"][index]
