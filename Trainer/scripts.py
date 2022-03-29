@@ -2,10 +2,10 @@
 # Trainer/scripts.py
 import requests
 import json
-import sys
-sys.path.append('/Poke-Primer-main/')
+import os
+ROOT_DIR = os.path.split(os.path.dirname(__file__))[0] + "\\"
 
-POKEDEX_SIZE = 10
+POKEDEX_SIZE = 151
 
 
 def request_data(url):
@@ -61,7 +61,7 @@ def load_pokemon_data():
     :return: a json file of pokemon information to be read.
              This data is read from \PokemonData\pokemon_data.json
     """
-    with open("PokemonData/pokemon_data.json", "r") as json_file:
+    with open(ROOT_DIR + "PokemonData\\pokemon_data.json", "r") as json_file:
         pokemon_data = json.load(json_file)
 
     return pokemon_data
