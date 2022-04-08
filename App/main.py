@@ -1,13 +1,11 @@
 from kivy.uix.label import Label
 import kivy
+from kivy.lang import Builder
 from kivy.app import App
-from kivymd.app import MDApp
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.core.text import LabelBase
-from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.gridlayout import GridLayout
 from kivy.uix.popup import Popup
 from kivy.uix.button import Button
 from kivy.uix.image import Image
@@ -17,10 +15,9 @@ import sys
 
 from numpy import spacing
 sys.path.append('/Poke-Primer-main/')
-from MoveDex.code.scripts import get_move_id_list, get_move_name_list, get_move_type_list
-
 import os
 
+from MoveDex.code.scripts import get_move_id_list, get_move_name_list, get_move_type_list
 from Trainer.classes import Team
 from Trainer.scripts import all_pokemon_id_list, all_pokemon_name_list
 
@@ -34,7 +31,7 @@ ROOT_DIR = os.path.split(os.path.dirname(__file__))[0] + "\\"
 
 LabelBase.register(name='PokeFont',
                    fn_regular=ROOT_DIR + 'Pokemon Classic.ttf')
-Window.size = (350, 700)
+Window.size = (414, 896)
 
 class MoveCard(BoxLayout):
     def __init__(self, id):
@@ -216,7 +213,6 @@ class ItemCard(BoxLayout):
         self.ball_button.unbind(on_release=self.RemoveFromTrainer)
         self.ball_button.bind(on_release=self.AddToTrainer)
 
-
 class PokemonCard(BoxLayout):
     def __init__(self, id):
         self.id = id
@@ -311,25 +307,30 @@ class PokemonCard(BoxLayout):
         self.ball_button.unbind(on_release=self.RemoveFromTrainer)
         self.ball_button.bind(on_release=self.AddToTrainer)
 
-
-class PokeDex(BoxLayout):
+class PokeDex(Screen):
 
     def GeneratePokemon(self, sort):
         self.ids.poke_grid.clear_widgets()
+        self.ids.num.background_normal = "button_cat_normal.png"
+        self.ids.name.background_normal = "button_cat_normal.png"
+        self.ids.type.background_normal = "button_cat_normal.png"
         if sort == 0:
             """These two arrays are taking place of reading the data from the DB"""
             pokeIDList = all_pokemon_id_list()
             pokeIDName = all_pokemon_name_list()
+            self.ids.num.background_normal = "button_cat_sel.png"
             """The above arrays need to be fixed to access dbs"""
         if sort == 1:
             """These two arrays are taking place of reading the data from the DB"""
             pokeIDList = all_pokemon_id_list()
             pokeIDName = all_pokemon_name_list()
+            self.ids.name.background_normal = "button_cat_sel.png"
             """The above arrays need to be fixed to access dbs"""
         if sort == 2:
             """These two arrays are taking place of reading the data from the DB"""
             pokeIDList = all_pokemon_id_list()
             pokeIDName = all_pokemon_name_list()
+            self.ids.type.background_normal = "button_cat_sel.png"
             """The above arrays need to be fixed to access dbs"""
         for poke in pokeIDList:
             pCard = PokemonCard(poke)
@@ -337,19 +338,24 @@ class PokeDex(BoxLayout):
             self.ids.poke_grid.add_widget(full_button)        
     pass
 
-
-class MoveDex(BoxLayout):
+class MoveDex(Screen):
 
     def GenerateMoves(self, sort):
-
+        self.ids.move_grid.clear_widgets()
+        self.ids.num.background_normal = "button_cat_normal.png"
+        self.ids.name.background_normal = "button_cat_normal.png"
+        self.ids.type.background_normal = "button_cat_normal.png"
         if sort == 0:
             move_list = get_move_id_list()
+            self.ids.num.background_normal = "button_cat_sel.png"
 
         if sort == 1:
             move_list = get_move_name_list()
+            self.ids.name.background_normal = "button_cat_sel.png"
 
         if sort == 2:
             move_list = get_move_type_list()
+            self.ids.type.background_normal = "button_cat_sel.png"
 
         for item in move_list:
             iCard = ItemCard(item['id'])
@@ -358,20 +364,25 @@ class MoveDex(BoxLayout):
 
     pass
 
-
-class ItemDex(BoxLayout):
+class ItemDex(Screen):
 
     def GenerateItems(self, sort):
         self.ids.item_grid.clear_widgets()
+        self.ids.num.background_normal = "button_cat_normal.png"
+        self.ids.name.background_normal = "button_cat_normal.png"
+        self.ids.type.background_normal = "button_cat_normal.png"
         if sort == 0:
             itemIDNameCatList = get_item_id_name_cat_list()
             newList = sorted(itemIDNameCatList, key=lambda i: i['id'])
+            self.ids.num.background_normal = "button_cat_sel.png"
         if sort == 1:
             itemIDNameCatList = get_item_id_name_cat_list()
             newList = sorted(itemIDNameCatList, key=lambda i: i['name'])
+            self.ids.name.background_normal = "button_cat_sel.png"
         if sort == 2:
             itemIDNameCatList = get_item_id_name_cat_list()
             newList = sorted(itemIDNameCatList, key=lambda i: i['category'])
+            self.ids.type.background_normal = "button_cat_sel.png"
         i = 0
         for item in newList:
             iCard = ItemCard(item['id'])
@@ -381,12 +392,15 @@ class ItemDex(BoxLayout):
     pass
 
 
-class Trainer(BoxLayout):
+class Trainer(Screen):
 
     def GenerateTeam(self):
         pokeIDList = ContentNavigationDrawer.pokeTeam.get_team_id_list()
         pokeIDName = ContentNavigationDrawer.pokeTeam.get_team_name_list()
-        self.ids.trainer_grid.clear_widgets()
+        self.ids.poke_grid.clear_widgets()
+        self.ids.poke.background_normal = "button_cat_sel.png"
+        self.ids.moves.background_normal = "button_cat_normal.png"
+        self.ids.item.background_normal = "button_cat_normal.png"
         i = 0
         for i in range(len(pokeIDList)):
             if pokeIDList[i] is not 0:
@@ -402,14 +416,55 @@ class ContentNavigationDrawer(BoxLayout):
     pokeTeam = Team()
     pass
 
+class NavScreen(Screen):
+    def FixMenu(self, screen_choice):    
+        self.ids.p.background_normal = "button_nav_normal.png"
+        self.ids.m.background_normal = "button_nav_normal.png"
+        self.ids.i.background_normal = "button_nav_normal.png"
+        self.ids.t.background_normal = "button_nav_trainer.png"
+        self.ids.p.background_down = "button_nav_down.png"
+        self.ids.m.background_down = "button_nav_down.png"
+        self.ids.i.background_down = "button_nav_down.png"
+        if screen_choice == 0:
+            self.ids.p.background_normal = "button_nav_sel.png"
+            self.ids.p.background_down = "button_nav_sel_down.png"
 
-class PokePrimerApp(MDApp):
+        if screen_choice == 1:
+            self.ids.m.background_normal = "button_nav_sel.png"
+            self.ids.m.background_down = "button_nav_sel_down.png"
+
+        if screen_choice == 2:
+            self.ids.i.background_normal = "button_nav_sel.png"
+            self.ids.i.background_down = "button_nav_sel_down.png"
+
+        if screen_choice == 3:
+            self.ids.t.background_normal = "button_nav_train_sel.png"
+
+
+class MainScreen(Screen):  
+    def ButtonClick(self, screen_choice):
+
+        if screen_choice == 0:
+            self.ids.info_sm.current = "poke"
+
+        if screen_choice == 1:
+            self.ids.info_sm.current = "move"
+
+        if screen_choice == 2:
+            self.ids.info_sm.current = "item"
+
+        if screen_choice == 3:
+            self.ids.info_sm.current = "trainer"
+
+class ScreenManagement(ScreenManager):
+    pass
+class PokePrimerApp(App):
 
     def build(self):
-        self.theme_cls.theme_style = "Dark"
-        self.theme_cls.primary_palette = "Gray"
-        self.theme_cls.accent_palette = "Red"
-        return Builder.load_file("main.kv")
+        Builder.load_file("main.kv")
+        main_sm = ScreenManager()
+        main_sm.add_widget(MainScreen(name="main"))
+        return main_sm
 
-
-PokePrimerApp().run()
+poke_app = PokePrimerApp()
+poke_app.run()

@@ -1,54 +1,150 @@
 #:kivy 2.0
 #:import Factory kivy.factory.Factory
-#:include firebaseloginscreen.kv
-#:import FirebaseLoginScreen firebaseloginscreen.FirebaseLoginScreen
 #:import utils kivy.utils
 
 
+<MainScreen>:
+    id: main
+    BoxLayout:
+        orientation: 'vertical'
+        border: 0, 0, 0, 0
+        NavScreen:
+        Image:
+            source: 'border01.png'
+            size_hint: None, None
+            size: 414, 32
+            allow_stretch: True
+            keep_ratio: False
+        ScreenManagement:
+            id: info_sm
+            name: "info_sm"
+            PokeDex:
+            MoveDex:
+            ItemDex:
+            Trainer:
+
+<NavScreen>:
+    id: nav
+    size_hint: 1, .1
+    border: 0, 0, 0, 0
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgba: .71, .17, .13, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        size_hint: 1, None
+        orientation: "horizontal"
+        padding: 20
+        Button:
+            id: p
+            text: ' P'
+            size_hint: None, None
+            size: 64, 64
+            pos_hint: {'x':.1, 'top': .9}
+            background_normal: 'button_nav_sel.png'
+            background_down: 'button_nav_sel_down.png'
+            color: .17, .23, .2, 1
+            font_name: "PokeFont"
+            font_size: self.width/2.5
+            on_release:
+                root.parent.parent.ButtonClick(0)
+                root.FixMenu(0)
+        Button:
+            text: ' M'
+            id: m
+            size_hint: None, None
+            size: 64, 64
+            pos_hint: {'x':.1, 'top': .9}
+            background_normal: 'button_nav_normal.png'
+            background_down: 'button_nav_down.png'
+            color: .17, .23, .2, 1
+            font_name: "PokeFont"
+            font_size: self.width/2.5
+            on_release: 
+                root.parent.parent.ButtonClick(1)
+                root.FixMenu(1)
+        Button:
+            text: ' I'
+            id: i
+            size_hint: None, None
+            size: 64, 64
+            pos_hint: {'x':.1, 'top': .9}
+            background_normal: 'button_nav_normal.png'
+            background_down: 'button_nav_down.png'
+            color: .17, .23, .2, 1
+            font_name: "PokeFont"
+            font_size: self.width/2.5
+            on_release: 
+                root.parent.parent.ButtonClick(2)
+                root.FixMenu(2)
+        Button:
+            id: t
+            size_hint: None, None
+            size: 64, 64
+            pos_hint: {'x':.1, 'top': .9}
+            border: 0, 0, 0, 0
+            background_normal: 'button_nav_trainer.png'
+            background_down: 'button_nav_train_down.png'
+            on_release: 
+                root.parent.parent.ButtonClick(3)
+                root.FixMenu(3)
 <PokeDex>:
-    MDBoxLayout:
-        md_bg_color: .64, .72, .66, 1
-        padding: 10
+    name: "poke"
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgba: .64, .72, .66, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        padding: 0
+        border: 0, 0, 0, 0
         id: poke
         orientation: "vertical"
-        size_hint_y: .9
         Label:
-            size_hint: 1, None
+            size_hint: None, None
+            size: 414, 64
             text: "Poke-Dex"
             font_name: "PokeFont"
             font_size: self.width/10
             color: .17, .23, .2, 1
+            pos_hint: {'x':0, 'top': 0}
         BoxLayout:
             size_hint: 1, None
             orientation: "horizontal"
             Button:
                 text: 'Number'
+                id: num
                 size_hint: .3, .5
                 pos_hint: {'x':.1, 'top': .9}
-                background_normal: 'dark_bg.jpg'
-                background_down: 'light_bg.jpg'
+                background_normal: 'button_cat_normal.png'
+                background_down: 'button_cat_normal_down.png'
                 color: .64, .72, .66, 1
                 font_name: "PokeFont"
                 on_release: root.GeneratePokemon(0)
             Button:
                 text:"Name"
+                id: name
                 font_name: "PokeFont"
                 pos_hint: {'x':.5, 'top': .9}
                 size_hint: .3, .5
-                background_normal: 'dark_bg.jpg'
-                background_down: 'light_bg.jpg'
+                background_normal: 'button_cat_normal.png'
+                background_down: 'button_cat_normal_down.png'
                 color: .64, .72, .66, 1
                 on_release: root.GeneratePokemon(1)
             Button:
                 text:"Type"
+                id: type
                 font_name: "PokeFont"
                 pos_hint: {'x':.9, 'top': .9}
                 size_hint: .3, .5
-                background_normal: 'dark_bg.jpg'
-                background_down: 'light_bg.jpg'
+                background_normal: 'button_cat_normal.png'
+                background_down: 'button_cat_normal_down.png'
                 color: .64, .72, .66, 1
                 on_release: root.GeneratePokemon(2)
-                
+       
         ScrollView:
             GridLayout:
                 id: poke_grid
@@ -57,14 +153,21 @@
                 cols:1
 
 <MoveDex>:
-    MDBoxLayout:
-        md_bg_color: .64, .72, .66, 1
-        padding: 10
+    name: "move"
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgba: .64, .72, .66, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        padding: 0
+        border: 0, 0, 0, 0
         id: move
         orientation: "vertical"
-        size_hint_y: .9
         Label:
-            size_hint: 1, None
+            size_hint: None, None
+            size: 414, 64
             text: "Move-Dex"
             font_name: "PokeFont"
             font_size: self.width/10
@@ -74,33 +177,36 @@
             orientation: "horizontal"
             Button:
                 text: 'Number'
+                id: num
                 size_hint: .3, .5
                 pos_hint: {'x':.1, 'top': .9}
-                background_normal: 'dark_bg.jpg'
-                background_down: 'light_bg.jpg'
+                background_normal: 'button_cat_normal.png'
+                background_down: 'button_cat_normal_down.png'
                 color: .64, .72, .66, 1
                 font_name: "PokeFont"
-                on_release: root.GenerateMove(0)
+                on_release: root.GenerateMoves(0)
             Button:
                 text:"Name"
+                id: name
                 font_name: "PokeFont"
                 pos_hint: {'x':.5, 'top': .9}
                 size_hint: .3, .5
-                background_normal: 'dark_bg.jpg'
-                background_down: 'light_bg.jpg'
+                background_normal: 'button_cat_normal.png'
+                background_down: 'button_cat_normal_down.png'
                 color: .64, .72, .66, 1
                 font_name: "PokeFont"
-                on_release: root.GenerateMove(1)
+                on_release: root.GenerateMoves(1)
             Button:
                 text:"Type"
+                id: type
                 font_name: "PokeFont"
                 pos_hint: {'x':.9, 'top': .9}
                 size_hint: .3, .5
-                background_normal: 'dark_bg.jpg'
-                background_down: 'light_bg.jpg'
+                background_normal: 'button_cat_normal.png'
+                background_down: 'button_cat_normal_down.png'
                 color: .64, .72, .66, 1
                 font_name: "PokeFont"
-                on_release: root.GenerateMove(2)
+                on_release: root.GenerateMoves(2)
                 
         ScrollView:
             GridLayout:
@@ -110,14 +216,21 @@
                 cols:1
 
 <ItemDex>:
-    MDBoxLayout:
-        md_bg_color: .64, .72, .66, 1
-        padding: 10
+    name:"item"
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgba: .64, .72, .66, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        padding: 0
+        border: 0, 0, 0, 0
         id: item
         orientation: "vertical"
-        size_hint_y: .9
         Label:
-            size_hint: 1, None
+            size_hint: None, None
+            size: 414, 64
             text: "Item-Dex"
             font_name: "PokeFont"
             font_size: self.width/10
@@ -127,30 +240,33 @@
             orientation: "horizontal"
             Button:
                 text: 'Number'
+                id: num
                 size_hint: .3, .5
                 pos_hint: {'x':.1, 'top': .9}
-                background_normal: 'dark_bg.jpg'
-                background_down: 'light_bg.jpg'
+                background_normal: 'button_cat_normal.png'
+                background_down: 'button_cat_normal_down.png'
                 color: .64, .72, .66, 1
                 font_name: "PokeFont"
                 on_release: root.GenerateItems(0)
             Button:
                 text:"Name"
+                id: name
                 font_name: "PokeFont"
                 pos_hint: {'x':.5, 'top': .9}
                 size_hint: .3, .5
-                background_normal: 'dark_bg.jpg'
-                background_down: 'light_bg.jpg'
+                background_normal: 'button_cat_normal.png'
+                background_down: 'button_cat_normal_down.png'
                 color: .64, .72, .66, 1
                 font_name: "PokeFont"
                 on_release: root.GenerateItems(1)
             Button:
                 text:"Category"
+                id: type
                 font_name: "PokeFont"
                 pos_hint: {'x':.9, 'top': .9}
                 size_hint: .3, .5
-                background_normal: 'dark_bg.jpg'
-                background_down: 'light_bg.jpg'
+                background_normal: 'button_cat_normal.png'
+                background_down: 'button_cat_normal_down.png'
                 color: .64, .72, .66, 1
                 font_name: "PokeFont"
                 on_release: root.GenerateItems(2)
@@ -163,14 +279,21 @@
                 cols:1
 
 <Trainer>:
-    MDBoxLayout:
-        md_bg_color: .64, .72, .66, 1
-        padding: 10
+    name: "trainer"
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgba: .64, .72, .66, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        padding: 0
+        border: 0, 0, 0, 0
         id: trainer
         orientation: "vertical"
-        size_hint_y: .9
         Label:
-            size_hint: 1, None
+            size_hint: None, None
+            size: 414, 64
             text: "Trainer"
             font_name: "PokeFont"
             font_size: self.width/10
@@ -180,29 +303,32 @@
             orientation: "horizontal"
             Button:
                 text: 'Pokemon'
+                id: poke
                 size_hint: .3, .5
                 pos_hint: {'x':.1, 'top': .9}
-                background_normal: 'dark_bg.jpg'
-                background_down: 'light_bg.jpg'
+                background_normal: 'button_cat_normal.png'
+                background_down: 'button_cat_normal_down.png'
                 color: .64, .72, .66, 1
                 font_name: "PokeFont"
                 on_release: root.GenerateTeam()
             Button:
                 text:"Moves"
+                id: moves
                 font_name: "PokeFont"
                 pos_hint: {'x':.5, 'top': .9}
                 size_hint: .3, .5
-                background_normal: 'dark_bg.jpg'
-                background_down: 'light_bg.jpg'
+                background_normal: 'button_cat_normal.png'
+                background_down: 'button_cat_normal_down.png'
                 color: .64, .72, .66, 1
                 font_name: "PokeFont"
             Button:
                 text:"Items"
+                id: items
                 font_name: "PokeFont"
                 pos_hint: {'x':.9, 'top': .9}
                 size_hint: .3, .5
-                background_normal: 'dark_bg.jpg'
-                background_down: 'light_bg.jpg'
+                background_normal: 'button_cat_normal.png'
+                background_down: 'button_cat_normal_down.png'
                 color: .64, .72, .66, 1
                 font_name: "PokeFont"
                 
@@ -212,85 +338,3 @@
                 size_hint:1, None
                 height: self.minimum_height
                 cols:1
-
-<ContentNavigationDrawer>:
-
-    ScrollView:
-
-        MDList:
-
-            OneLineListItem:
-                text: "Poke-Dex"
-                on_press:
-                    root.nav_drawer.set_state("close")
-                    root.screen_manager.current = "poke"
-
-            OneLineListItem:
-                text: "Move-Dex"
-                on_press:
-                    root.nav_drawer.set_state("close")
-                    root.screen_manager.current = "move"
-            OneLineListItem:
-                text: "Item-Dex"
-                on_press:
-                    root.nav_drawer.set_state("close")
-                    root.screen_manager.current = "item"
-            OneLineListItem:
-                text: "Trainer"
-                on_press:
-                    root.nav_drawer.set_state("close")
-                    root.screen_manager.current = "trainer"
-
-
-Screen:
-
-    MDToolbar:
-        id: toolbar
-        md_bg_color: app.theme_cls.accent_color
-        font_name: "PokeFont"
-        pos_hint: {"top": 1}
-        elevation: 10
-        title: "Poke-Primer"
-        left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
-
-    MDNavigationLayout:
-        x: toolbar.height
-
-        ScreenManager:
-            id: screen_manager
-            FirebaseLoginScreen:
-                id: firebase_login_screen
-                name: "firebase_login_screen"
-                debug: True
-                remember_user: True
-                require_email_verification: True
-                web_api_key: "AIzaSyARRlPkOvwnL6IxTozZ0cvH7RIt66oDT-k" # This should be YOUR web_api_key
-                background: "background.jpg"
-                on_login_success:
-                    if self.login_state == 'in': print("User has logged in. Unique identifier is ", self.localId)
-                    if self.login_state == 'out': print("User signed out")
-
-                    if self.login_state == 'in': app.local_id = self.localId
-                    if self.login_state == 'in': app.user_idToken = self.idToken
-                    if self.login_state == 'in': app.display_user_tokens()
-                    if self.login_state == 'in': screen_manager.current = 'poke'
-
-            Screen:
-                name: "poke"
-                PokeDex:
-            Screen:
-                name: "move"
-                MoveDex:
-            Screen:
-                name: "item"
-                ItemDex:
-            Screen:
-                name: "trainer"
-                Trainer:
-        MDNavigationDrawer:
-            id: nav_drawer
-
-            ContentNavigationDrawer:
-                screen_manager: screen_manager
-                nav_drawer: nav_drawer
-
