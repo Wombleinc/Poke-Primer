@@ -17,9 +17,10 @@ import sys
 
 from numpy import spacing
 sys.path.append('/Poke-Primer-main/')
+from MoveDex.code.scripts import get_move_id_list, get_move_name_list, get_move_type_list
+
 import os
 
-from MoveDex.code.scripts import move_list as MoveDex_move_list
 from Trainer.classes import Team
 from Trainer.scripts import all_pokemon_id_list, all_pokemon_name_list
 
@@ -342,18 +343,15 @@ class MoveDex(BoxLayout):
     def GenerateMoves(self, sort):
 
         if sort == 0:
-            itemIDNameCatList = get_item_id_name_cat_list()
-            newList = sorted(itemIDNameCatList, key=lambda i: i['id'])
+            move_list = get_move_id_list()
 
         if sort == 1:
-            itemIDNameCatList = get_item_id_name_cat_list()
-            newList = sorted(itemIDNameCatList, key=lambda i: i['name'])
+            move_list = get_move_name_list()
 
         if sort == 2:
-            itemIDNameCatList = get_item_id_name_cat_list()
-            newList = sorted(itemIDNameCatList, key=lambda i: i['category'])
+            move_list = get_move_type_list()
 
-        for item in newList:
+        for item in move_list:
             iCard = ItemCard(item['id'])
             full_button = iCard.CreateItemButton(item['id'], item['name'], item['category'])
             self.ids.move_grid.add_widget(full_button)

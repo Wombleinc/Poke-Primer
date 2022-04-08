@@ -1,16 +1,37 @@
-import os
-import pandas
-from MoveDex.code import move
+import json
+import sys
 
-# Define root path as a variable
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-# Define dataset path in reference to the root path
-DATASET_PATH = os.path.join(ROOT_DIR, '..\\assets\\move_dataset.csv')
 
-# Read in dataset
-move_df = pandas.read_csv(DATASET_PATH, index_col='#')
+sys.path.append('/Poke-Primer-main/')
 
-move_list = []
-for i in range(0, 850):
-    move_generic = move.Move(i+1, move_df.iloc[i][0], move_df.iloc[i][1], move_df.iloc[i][2], move_df.iloc[i][3], move_df.iloc[i][4], move_df.iloc[i][5], move_df.iloc[i][6])
-    move_list.append(move_generic)
+def build_move_dict():
+    with open("PokemonData/moves.json", 'r') as move_json:
+        move_dict = json.load(move_json)
+    return move_dict
+
+def get_move_id_list():
+    move_dict = build_move_dict()
+    move_id_list = []
+    for i in range(0,850):
+        move_id_list.append(move_dict["move"][i]['#'])
+    return move_id_list
+
+def get_move_name_list():
+    move_dict = build_move_dict()
+    move_name_list = []
+    for i in range(0,850):
+        move_name_list.append(move_dict["move"][i]["Name"])
+    return move_name_list
+
+def get_move_type_list():
+    move_dict = build_move_dict()
+    move_type_list = []
+    for i in range(0,850):
+        move_type_list.append(move_dict["move"][i]["Type"])
+    return move_type_list
+
+# def get_move_master_list():
+#     move_dict = build_move_dict()
+#     move_list = []
+#     for i in range(0,850):
+#         move_list.append(dict(id=move_dict["move"][i][""]))
