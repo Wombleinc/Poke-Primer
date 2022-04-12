@@ -348,7 +348,6 @@ class PokeDex(Screen):
             pokeIDName = all_pokemon_name_list()
             self.ids.type.background_normal = "button_cat_sel.png"
             """The above arrays need to be fixed to access dbs"""
-        teamList = Trainer.trainerTeam.get_team_id_list()
         for poke in pokeIDList:
             pCard = PokemonCard(poke)
             full_button = pCard.CreatePokeButton(poke, pokeIDName[poke], Trainer.check_for_added(poke, 1))
@@ -399,15 +398,12 @@ class ItemDex(Screen):
             itemIDNameCatList = get_item_id_name_cat_list()
             newList = sorted(itemIDNameCatList, key=lambda i: i['category'])
             self.ids.type.background_normal = "button_cat_sel.png"
-        itemList = Trainer.trainerBag.get_item_id_list()
-        i = 0
         for item in newList:
             iCard = ItemCard(item['id'])
-            full_button = iCard.CreateItemButton(item['id'], item['name'], item['category'], Trainer.check_for_added(item, 3))
+            full_button = iCard.CreateItemButton(item['id'], item['name'], item['category'], Trainer.check_for_added(item['id'], 3))
             self.ids.item_grid.add_widget(full_button)
 
     pass
-
 
 class Trainer(Screen):
 
@@ -425,11 +421,16 @@ class Trainer(Screen):
             if owned_member == id:
                 return True
         return False
+    def ResetCatIcons(self):
+        self.ids.poke.background_normal = "button_cat_normal.png"
+        self.ids.moves.background_normal = "button_cat_normal.png"
+        self.ids.item_button.background_normal = "button_cat_normal.png"
     
     def GenerateTeam(self):
+        self.ids.trainer_grid.clear_widgets()
+        self.ids.poke.background_normal = "button_cat_sel.png"
         pokeIDList = self.trainerTeam.get_team_id_list()
         pokeIDName = self.trainerTeam.get_team_name_list()
-        self.ids.trainer_grid.clear_widgets()
         i = 0
         for i in range(len(pokeIDList)):
             if pokeIDList[i] is not 0:
@@ -439,18 +440,18 @@ class Trainer(Screen):
             i += 1
     
     def GenerateItems(self):
+        self.ids.trainer_grid.clear_widgets()
+        self.ids.item_button.background_normal = "button_cat_sel.png"
+        
         item_id_list = self.trainerBag.get_item_id_list()
         item_name_list = self.trainerBag.get_item_name_list()
         item_category_list = self.trainerBag.get_item_category_list()
-        self.ids.trainer_grid.clear_widgets()
         i = 0
         for i in range(len(item_id_list)):
             mCard = ItemCard(item_id_list[i])
             button = mCard.CreateItemButton(item_id_list[i], item_name_list[i], item_category_list[i], True)
             self.ids.trainer_grid.add_widget(button)
             i += 1
-
-    pass
 
 class NavScreen(Screen):
     def FixMenu(self, screen_choice):    
@@ -476,7 +477,6 @@ class NavScreen(Screen):
         if screen_choice == 3:
             self.ids.t.background_normal = "button_nav_train_sel.png"
 
-
 class MainScreen(Screen):  
     def ButtonClick(self, screen_choice):
 
@@ -492,8 +492,10 @@ class MainScreen(Screen):
         if screen_choice == 3:
             self.ids.info_sm.current = "trainer"
 
+
 class ScreenManagement(ScreenManager):
     pass
+
 class PokePrimerApp(App):
 
     def build(self):

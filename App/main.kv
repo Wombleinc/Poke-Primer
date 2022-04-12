@@ -280,6 +280,7 @@
 
 <Trainer>:
     name: "trainer"
+    on_pre_enter: self.ids.trainer_grid.clear_widgets()
     BoxLayout:
         canvas.before:
             Color:
@@ -310,7 +311,10 @@
                 background_down: 'button_cat_normal_down.png'
                 color: .64, .72, .66, 1
                 font_name: "PokeFont"
-                on_release: root.GenerateTeam()
+                on_release: 
+                    root.ResetCatIcons()
+                    root.GenerateTeam()
+
             Button:
                 text:"Moves"
                 id: moves
@@ -321,9 +325,13 @@
                 background_down: 'button_cat_normal_down.png'
                 color: .64, .72, .66, 1
                 font_name: "PokeFont"
+                on_release: 
+                    root.ResetCatIcons()
+                    root.GenerateTeam()
+            
             Button:
                 text:"Items"
-                id: items
+                id: item_button
                 font_name: "PokeFont"
                 pos_hint: {'x':.9, 'top': .9}
                 size_hint: .3, .5
@@ -331,9 +339,12 @@
                 background_down: 'button_cat_normal_down.png'
                 color: .64, .72, .66, 1
                 font_name: "PokeFont"
-                on_release: root.GenerateItems()
+                on_release: 
+                    root.ResetCatIcons()
+                    root.GenerateItems()
                 
         ScrollView:
+            id: trainer_scroll
             GridLayout:
                 id: trainer_grid
                 size_hint:1, None
