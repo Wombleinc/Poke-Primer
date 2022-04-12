@@ -1,4 +1,4 @@
-import request_item
+import ItemDex.request_item as request_item
 import requests
 import json
 
