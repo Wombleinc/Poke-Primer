@@ -18,8 +18,8 @@ sys.path.append('/Poke-Primer-main/')
 import os
 
 from MoveDex.code.scripts import get_move_id_list, get_move_name_list, get_move_type_list
-from Trainer.classes import Team, TrainerBag
-from Trainer.scripts import all_pokemon_id_list, all_pokemon_name_list
+from Trainer.classes import Team, TrainerBag, all_pokemon_name_list
+from Trainer.scripts import all_pokemon_id_list
 
 from card import CardPokemon
 from card import CardItem
@@ -170,7 +170,7 @@ class ItemCard(BoxLayout):
             content.add_widget(buttons)
             self.popup.open()
 
-    def CreateItemButton(self, item_id, item_name, item_category):
+    def CreateItemButton(self, item_id, item_name, item_category, owned):
         self.id = item_id
         full_button = BoxLayout(orientation='horizontal',
                                 size_hint=(None, None), height=50)
@@ -184,11 +184,18 @@ class ItemCard(BoxLayout):
                         background_down=ROOT_DIR + 'light_bg.jpg',
                         color=(.64, .72, .66, 1), font_name="PokeFont")
         button.bind(on_release=partial(self.GetCardItemData))
-        self.ball_button = Button(background_normal='icon_item.png',
+        if owned:
+            self.ball_button = Button(background_normal='icon_item_added.png',
+                            background_down='icon_item_added_down.png',
+                            size_hint=(None, None), size=(40, 40),
+                            pos=(50, 0), border=(0, 0, 0, 0))
+            self.ball_button.bind(on_release=self.RemoveFromTrainer)
+        else:
+            self.ball_button = Button(background_normal='icon_item.png',
                             background_down='icon_item_down.png',
                             size_hint=(None, None), size=(40, 40),
                             pos=(50, 0), border=(0, 0, 0, 0))
-        self.ball_button.bind(on_release=self.AddToTrainer)
+            self.ball_button.bind(on_release=self.AddToTrainer)
         full_button.add_widget(lbl_number)
         full_button.add_widget(button)
         full_button.add_widget(self.ball_button)
@@ -201,8 +208,8 @@ class ItemCard(BoxLayout):
         self.ball_button.bind(on_release=self.RemoveFromTrainer)
       
         # This function now saves teams to json instead of csv
-        ContentNavigationDrawer.trainerBag.add_item(self.id)
-        ContentNavigationDrawer.trainerBag.save_bag_to_json()
+        Trainer.trainerBag.add_item(self.id)
+        Trainer.trainerBag.save_bag_to_json()
 
     def RemoveFromTrainer(self, *args):
         self.ball_button.background_normal='icon_item.png'
@@ -210,8 +217,8 @@ class ItemCard(BoxLayout):
         self.ball_button.unbind(on_release=self.RemoveFromTrainer)
         self.ball_button.bind(on_release=self.AddToTrainer)
 
-        ContentNavigationDrawer.trainerBag.remove_item(self.id)
-        ContentNavigationDrawer.trainerBag.save_bag_to_json()
+        Trainer.trainerBag.remove_item(self.id)
+        Trainer.trainerBag.save_bag_to_json()
 
 class PokemonCard(BoxLayout):
     def __init__(self, id):
@@ -266,7 +273,7 @@ class PokemonCard(BoxLayout):
         content.add_widget(buttons)
         self.popup.open()
 
-    def CreatePokeButton(self, poke_id, poke_name):
+    def CreatePokeButton(self, poke_id, poke_name, inTeam):
         self.id = poke_id
         full_button = BoxLayout(orientation='horizontal',
                                 size_hint=(None, None), height=50)
@@ -281,11 +288,18 @@ class PokemonCard(BoxLayout):
                         color=(.64, .72, .66, 1), font_name="PokeFont")
         button.bind(on_release=partial(self.GetCardPokemonData))
         
-        self.ball_button = Button(background_normal='icon_ball.png',
+        if inTeam:
+            self.ball_button = Button(background_normal='icon_ball_added.png',
+                            background_down='icon_ball_added_down.png',
+                             size_hint=(None, None), size=(40, 40),
+                             pos=(50, 0), border=(0, 0, 0, 0))
+            self.ball_button.bind(on_release=self.RemoveFromTrainer)
+        else:
+            self.ball_button = Button(background_normal='icon_ball.png',
                             background_down='icon_ball_down.png',
                              size_hint=(None, None), size=(40, 40),
                              pos=(50, 0), border=(0, 0, 0, 0))
-        self.ball_button.bind(on_release=self.AddToTrainer)
+            self.ball_button.bind(on_release=self.AddToTrainer)
         full_button.add_widget(lbl_number)
         full_button.add_widget(button)
         full_button.add_widget(self.ball_button)
@@ -297,8 +311,8 @@ class PokemonCard(BoxLayout):
         self.ball_button.unbind(on_release=self.AddToTrainer)
         self.ball_button.bind(on_release=self.RemoveFromTrainer)
 
-        ContentNavigationDrawer.trainerTeam.add_from_id_to_team(self.id)
-        ContentNavigationDrawer.trainerTeam.save_team_to_json()
+        Trainer.trainerTeam.add_from_id_to_team(self.id)
+        Trainer.trainerTeam.save_team_to_json()
 
     def RemoveFromTrainer(self, *args):
         self.ball_button.background_normal='icon_ball.png'
@@ -306,8 +320,8 @@ class PokemonCard(BoxLayout):
         self.ball_button.unbind(on_release=self.RemoveFromTrainer)
         self.ball_button.bind(on_release=self.AddToTrainer)
 
-        ContentNavigationDrawer.trainerTeam.remove_pokemon(self.id)
-        ContentNavigationDrawer.trainerTeam.save_team_to_json()
+        Trainer.trainerTeam.remove_pokemon(self.id)
+        Trainer.trainerTeam.save_team_to_json()
 
 class PokeDex(Screen):
 
@@ -334,11 +348,11 @@ class PokeDex(Screen):
             pokeIDName = all_pokemon_name_list()
             self.ids.type.background_normal = "button_cat_sel.png"
             """The above arrays need to be fixed to access dbs"""
+        teamList = Trainer.trainerTeam.get_team_id_list()
         for poke in pokeIDList:
             pCard = PokemonCard(poke)
-            full_button = pCard.CreatePokeButton(poke, pokeIDName[poke])
-            self.ids.poke_grid.add_widget(full_button)        
-    pass
+            full_button = pCard.CreatePokeButton(poke, pokeIDName[poke], Trainer.check_for_added(poke, 1))
+            self.ids.poke_grid.add_widget(full_button)
 
 class MoveDex(Screen):
 
@@ -367,7 +381,7 @@ class MoveDex(Screen):
     pass
 
 class ItemDex(Screen):
-
+    
     def GenerateItems(self, sort):
         self.ids.item_grid.clear_widgets()
         self.ids.num.background_normal = "button_cat_normal.png"
@@ -385,10 +399,11 @@ class ItemDex(Screen):
             itemIDNameCatList = get_item_id_name_cat_list()
             newList = sorted(itemIDNameCatList, key=lambda i: i['category'])
             self.ids.type.background_normal = "button_cat_sel.png"
+        itemList = Trainer.trainerBag.get_item_id_list()
         i = 0
         for item in newList:
             iCard = ItemCard(item['id'])
-            full_button = iCard.CreateItemButton(item['id'], item['name'], item['category'])
+            full_button = iCard.CreateItemButton(item['id'], item['name'], item['category'], Trainer.check_for_added(item, 3))
             self.ids.item_grid.add_widget(full_button)
 
     pass
@@ -396,36 +411,45 @@ class ItemDex(Screen):
 
 class Trainer(Screen):
 
+    trainerTeam = Team()
+    trainerBag = TrainerBag()
+
+    def check_for_added(id, category):
+        if category == 1:
+            ownedList = Trainer.trainerTeam.get_team_id_list()
+        if category == 2:
+            ownedList = Trainer.trainerTeam.get_team_id_list()
+        if category == 3:
+            ownedList = Trainer.trainerBag.get_item_id_list()
+        for owned_member in ownedList:
+            if owned_member == id:
+                return True
+        return False
+    
     def GenerateTeam(self):
-        pokeIDList = ContentNavigationDrawer.trainerTeam.get_team_id_list()
-        pokeIDName = ContentNavigationDrawer.trainerTeam.get_team_name_list()
+        pokeIDList = self.trainerTeam.get_team_id_list()
+        pokeIDName = self.trainerTeam.get_team_name_list()
         self.ids.trainer_grid.clear_widgets()
         i = 0
         for i in range(len(pokeIDList)):
             if pokeIDList[i] is not 0:
                 pCard = PokemonCard(pokeIDList[i])
-                button = pCard.CreatePokeButton(pokeIDList[i], pokeIDName[i])
+                button = pCard.CreatePokeButton(pokeIDList[i], pokeIDName[i], True)
                 self.ids.trainer_grid.add_widget(button)
             i += 1
     
     def GenerateItems(self):
-        item_id_list = ContentNavigationDrawer.trainerBag.get_item_id_list()
-        item_name_list = ContentNavigationDrawer.trainerBag.get_item_name_list()
-        item_category_list = ContentNavigationDrawer.trainerBag.get_item_category_list()
+        item_id_list = self.trainerBag.get_item_id_list()
+        item_name_list = self.trainerBag.get_item_name_list()
+        item_category_list = self.trainerBag.get_item_category_list()
         self.ids.trainer_grid.clear_widgets()
         i = 0
         for i in range(len(item_id_list)):
             mCard = ItemCard(item_id_list[i])
-            button = mCard.CreateItemButton(item_id_list[i], item_name_list[i], item_category_list[i])
+            button = mCard.CreateItemButton(item_id_list[i], item_name_list[i], item_category_list[i], True)
             self.ids.trainer_grid.add_widget(button)
             i += 1
 
-    pass
-
-
-class ContentNavigationDrawer(BoxLayout):
-    trainerTeam = Team()
-    trainerBag = TrainerBag()
     pass
 
 class NavScreen(Screen):
