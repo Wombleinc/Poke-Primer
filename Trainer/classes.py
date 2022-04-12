@@ -5,6 +5,7 @@ import os
 ROOT_DIR = os.path.split(os.path.dirname(__file__))[0] + "\\"
 
 from Trainer.scripts import all_pokemon_name_list
+from ItemDex.Item import Item
 
 
 def create_pokemon_from_id(pokemon_id):
@@ -137,6 +138,19 @@ class Team:
             self.members.insert(count, pokemon)
         else:
             print("Team's too big! Data wasn't changed.")
+    
+    def remove_pokemon(self, id):
+        count = 0
+        remove_id = 0
+        for member in self.members:
+            if member.id != 0:
+                if member.id == id:
+                    remove_id = count
+                    break
+                count += 1
+        if remove_id != 0:
+            self.members.pop(remove_id)
+            self.members.append(Pokemon())
 
     def add_from_id_to_team(self, pokemon_id):
         """
@@ -214,3 +228,52 @@ class Team:
 
         with open(ROOT_DIR + "Trainer\\team.json", "w") as json_file:
             json.dump(team_dict, json_file, indent=4)
+
+class TrainerBag:
+    def __init__(self):
+        self.members = []
+    
+    def add_item(self, id):
+        new_item = Item(id)
+        self.members.append(new_item)
+    
+    def remove_item(self, id):
+        for item in self.members:
+            if item.get_id() == id:
+                self.members.remove(item)
+                break
+    
+    def get_item_id_list(self):
+        item_list = []
+        for item in self.members:
+            item_list.append(item.get_id())
+        return item_list
+    
+    def get_item_name_list(self):
+        item_list = []
+        for item in self.members:
+            item_list.append(item.get_name())
+        return item_list
+    
+    def get_item_category_list(self):
+        item_list = []
+        for item in self.members:
+            item_list.append(item.get_category())
+        return item_list
+    
+    def save_bag_to_json(self):
+        bag_dict = {
+            "items": []
+        }
+
+        for item in self.members:
+            new_data = {
+                "item_id": int(item.get_id()),
+                "item_name": item.get_name(),
+                "item_category": item.get_category()
+            }
+            
+            bag_dict["items"].append(new_data)
+
+        with open(ROOT_DIR + "Trainer\\bag.json", "w") as json_file:
+            json.dump(bag_dict, json_file, indent=4)
