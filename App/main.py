@@ -18,7 +18,7 @@ sys.path.append('/Poke-Primer-main/')
 import os
 
 from MoveDex.code.scripts import get_move_id_list, get_move_name_list, get_move_type_list
-from Trainer.classes import Team
+from Trainer.classes import Team, TrainerBag
 from Trainer.scripts import all_pokemon_id_list, all_pokemon_name_list
 
 from card import CardPokemon
@@ -112,10 +112,6 @@ class MoveCard(BoxLayout):
         self.ball_button.background_down='icon_move_added_down.png'
         self.ball_button.unbind(on_release=self.AddToTrainer)
         self.ball_button.bind(on_release=self.RemoveFromTrainer)
-      
-        # This function now saves teams to json instead of csv
-        ContentNavigationDrawer.pokeTeam.add_from_id_to_team(self.id)
-        ContentNavigationDrawer.pokeTeam.save_team_to_json()
 
     def RemoveFromTrainer(self, *args):
         self.ball_button.background_normal='icon_move.png'
@@ -173,6 +169,7 @@ class ItemCard(BoxLayout):
             buttons.add_widget(self.ball_button)
             content.add_widget(buttons)
             self.popup.open()
+
     def CreateItemButton(self, item_id, item_name, item_category):
         self.id = item_id
         full_button = BoxLayout(orientation='horizontal',
@@ -204,14 +201,17 @@ class ItemCard(BoxLayout):
         self.ball_button.bind(on_release=self.RemoveFromTrainer)
       
         # This function now saves teams to json instead of csv
-        ContentNavigationDrawer.pokeTeam.add_from_id_to_team(self.id)
-        ContentNavigationDrawer.pokeTeam.save_team_to_json()
+        ContentNavigationDrawer.trainerBag.add_item(self.id)
+        ContentNavigationDrawer.trainerBag.save_bag_to_json()
 
     def RemoveFromTrainer(self, *args):
         self.ball_button.background_normal='icon_item.png'
         self.ball_button.background_down='icon_item_down.png'
         self.ball_button.unbind(on_release=self.RemoveFromTrainer)
         self.ball_button.bind(on_release=self.AddToTrainer)
+
+        ContentNavigationDrawer.trainerBag.remove_item(self.id)
+        ContentNavigationDrawer.trainerBag.save_bag_to_json()
 
 class PokemonCard(BoxLayout):
     def __init__(self, id):
@@ -266,7 +266,6 @@ class PokemonCard(BoxLayout):
         content.add_widget(buttons)
         self.popup.open()
 
-
     def CreatePokeButton(self, poke_id, poke_name):
         self.id = poke_id
         full_button = BoxLayout(orientation='horizontal',
@@ -281,6 +280,7 @@ class PokemonCard(BoxLayout):
                         background_down=ROOT_DIR + 'light_bg.jpg',
                         color=(.64, .72, .66, 1), font_name="PokeFont")
         button.bind(on_release=partial(self.GetCardPokemonData))
+        
         self.ball_button = Button(background_normal='icon_ball.png',
                             background_down='icon_ball_down.png',
                              size_hint=(None, None), size=(40, 40),
@@ -296,16 +296,18 @@ class PokemonCard(BoxLayout):
         self.ball_button.background_down='icon_ball_added_down.png'
         self.ball_button.unbind(on_release=self.AddToTrainer)
         self.ball_button.bind(on_release=self.RemoveFromTrainer)
-      
-        # This function now saves teams to json instead of csv
-        ContentNavigationDrawer.pokeTeam.add_from_id_to_team(self.id)
-        ContentNavigationDrawer.pokeTeam.save_team_to_json()
+
+        ContentNavigationDrawer.trainerTeam.add_from_id_to_team(self.id)
+        ContentNavigationDrawer.trainerTeam.save_team_to_json()
 
     def RemoveFromTrainer(self, *args):
         self.ball_button.background_normal='icon_ball.png'
         self.ball_button.background_down='icon_ball_down.png'
         self.ball_button.unbind(on_release=self.RemoveFromTrainer)
         self.ball_button.bind(on_release=self.AddToTrainer)
+
+        ContentNavigationDrawer.trainerTeam.remove_pokemon(self.id)
+        ContentNavigationDrawer.trainerTeam.save_team_to_json()
 
 class PokeDex(Screen):
 
@@ -395,12 +397,9 @@ class ItemDex(Screen):
 class Trainer(Screen):
 
     def GenerateTeam(self):
-        pokeIDList = ContentNavigationDrawer.pokeTeam.get_team_id_list()
-        pokeIDName = ContentNavigationDrawer.pokeTeam.get_team_name_list()
-        self.ids.poke_grid.clear_widgets()
-        self.ids.poke.background_normal = "button_cat_sel.png"
-        self.ids.moves.background_normal = "button_cat_normal.png"
-        self.ids.item.background_normal = "button_cat_normal.png"
+        pokeIDList = ContentNavigationDrawer.trainerTeam.get_team_id_list()
+        pokeIDName = ContentNavigationDrawer.trainerTeam.get_team_name_list()
+        self.ids.trainer_grid.clear_widgets()
         i = 0
         for i in range(len(pokeIDList)):
             if pokeIDList[i] is not 0:
@@ -408,12 +407,25 @@ class Trainer(Screen):
                 button = pCard.CreatePokeButton(pokeIDList[i], pokeIDName[i])
                 self.ids.trainer_grid.add_widget(button)
             i += 1
+    
+    def GenerateItems(self):
+        item_id_list = ContentNavigationDrawer.trainerBag.get_item_id_list()
+        item_name_list = ContentNavigationDrawer.trainerBag.get_item_name_list()
+        item_category_list = ContentNavigationDrawer.trainerBag.get_item_category_list()
+        self.ids.trainer_grid.clear_widgets()
+        i = 0
+        for i in range(len(item_id_list)):
+            mCard = ItemCard(item_id_list[i])
+            button = mCard.CreateItemButton(item_id_list[i], item_name_list[i], item_category_list[i])
+            self.ids.trainer_grid.add_widget(button)
+            i += 1
 
     pass
 
 
 class ContentNavigationDrawer(BoxLayout):
-    pokeTeam = Team()
+    trainerTeam = Team()
+    trainerBag = TrainerBag()
     pass
 
 class NavScreen(Screen):
