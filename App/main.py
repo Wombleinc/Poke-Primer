@@ -98,7 +98,7 @@ class MoveCard(BoxLayout):
                         background_normal=ROOT_DIR + 'dark_bg.jpg',
                         background_down=ROOT_DIR + 'light_bg.jpg',
                         color=(.64, .72, .66, 1), font_name="PokeFont")
-        button.bind(on_release=partial(self.GetCardPokemonData))
+        button.bind(on_release=partial(self.GetCardMoveData))
         self.ball_button = Button(background_normal='icon_move.png',
                             background_down='icon_move_down.png',
                              size_hint=(None, None), size=(40, 40),
@@ -379,8 +379,8 @@ class MoveDex(Screen):
             self.ids.type.background_normal = "button_cat_sel.png"
 
         for move in move_list_sorted:
-            iCard = ItemCard(move['id'])
-            full_button = iCard.CreateMoveButton(move['id'], move['name'], move['type'])
+            mCard = MoveCard(move['id'])
+            full_button = mCard.CreateMoveButton(move['id'], move['name'])
             self.ids.move_grid.add_widget(full_button)
 
     pass
