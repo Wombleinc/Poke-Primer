@@ -12,30 +12,23 @@ def build_move_dict():
 def get_move_id_list():
     move_dict = build_move_dict()
     move_id_list = []
-    for i in range(0,850):
-        move_id_list.append(move_dict['move'][i]['#'])
+    for i in range(0,20):
+        move_id_list.append(move_dict["move"][i]['#'])
     return move_id_list
 
 def get_move_name_list():
     move_dict = build_move_dict()
     move_name_list = []
-    for i in range(0,850):
-        move_name_list.append(move_dict['move'][i]['Name'])
+    for i in range(0,20):
+        move_name_list.append(move_dict["move"][i]["Name"])
     return move_name_list
 
 def get_move_type_list():
     move_dict = build_move_dict()
     move_type_list = []
-    for i in range(0,850):
-        move_type_list.append(move_dict['move'][i]['Type'])
+    for i in range(0,20):
+        move_type_list.append(move_dict["move"][i]["Type"])
     return move_type_list
-
-def get_move_master_list():
-    move_dict = build_move_dict()
-    move_list_sort = []
-    for i in range(0,850):
-        move_list_sort.append(dict(id=move_dict['move'][i]['#'],name=move_dict['move'][i]['Name'],type=move_dict['move'][i]['Type']))
-    return move_list_sort
 
 # def get_move_master_list():
 #     move_dict = build_move_dict()

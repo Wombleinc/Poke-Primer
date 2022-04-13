@@ -2,8 +2,8 @@
     "pokemon": [
         {
             "slot": 1,
-            "id": 1,
-            "name": "Bulbasaur",
+            "id": 2,
+            "name": "Ivysaur",
             "item": null,
             "move_1": null,
             "move_2": null,
