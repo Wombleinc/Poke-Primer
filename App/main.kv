@@ -1,6 +1,9 @@
 #:kivy 2.0
 #:import Factory kivy.factory.Factory
+#:include firebaseloginscreen.kv
+#:import FirebaseLoginScreen firebaseloginscreen.FirebaseLoginScreen
 #:import utils kivy.utils
+
 
 
 <MainScreen>:
@@ -18,6 +21,25 @@
         ScreenManagement:
             id: info_sm
             name: "info_sm"
+            FirebaseLoginScreen:
+                id: firebase_login_screen
+                name: "firebase_login_screen"
+                debug: True
+                remember_user: True
+                require_email_verification: True
+                web_api_key: "AIzaSyCVAZHLsIkT62IyXIQ0p6JMDioZ5-NPVrQ" # This should be YOUR web_api_key
+                primary_color: utils.get_color_from_hex("#EE682A")
+                secondary_color: utils.get_color_from_hex("#060809")
+                tertiary_color: (.25, .25, .25, 1)
+
+                on_login_success:
+                    if self.login_state == 'in': print("User has logged in. Unique identifier is ", self.localId)
+                    if self.login_state == 'out': print("User signed out")
+
+                    if self.login_state == 'in': app.local_id = self.localId
+                    if self.login_state == 'in': app.user_idToken = self.idToken
+                    if self.login_state == 'in': app.display_user_tokens()
+                    if self.login_state == 'in': screen_manager.current = 'poke'
             PokeDex:
             MoveDex:
             ItemDex:
