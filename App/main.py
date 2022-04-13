@@ -15,9 +15,11 @@ import sys
 
 from numpy import spacing
 sys.path.append('/Poke-Primer-main/')
+sys.path.append('..')
 import os
 
-from MoveDex.code.scripts import get_move_id_list, get_move_name_list, get_move_type_list
+import MoveDex
+from MoveDex.code.scripts import get_move_master_list
 from Trainer.classes import Team, TrainerBag, all_pokemon_name_list
 from Trainer.scripts import all_pokemon_id_list
 
@@ -360,21 +362,25 @@ class MoveDex(Screen):
         self.ids.num.background_normal = "button_cat_normal.png"
         self.ids.name.background_normal = "button_cat_normal.png"
         self.ids.type.background_normal = "button_cat_normal.png"
+
         if sort == 0:
-            move_list = get_move_id_list()
+            move_list_master = get_move_master_list()
+            move_list_sorted = sorted(move_list_master, key=lambda i: i['id'])
             self.ids.num.background_normal = "button_cat_sel.png"
 
         if sort == 1:
-            move_list = get_move_name_list()
+            move_list_master = get_move_master_list()
+            move_list_sorted = sorted(move_list_master, key=lambda i: i['name'])
             self.ids.name.background_normal = "button_cat_sel.png"
 
         if sort == 2:
-            move_list = get_move_type_list()
+            move_list_master = get_move_master_list()
+            move_list_sorted = sorted(move_list_master, key=lambda i: i['type'])
             self.ids.type.background_normal = "button_cat_sel.png"
 
-        for item in move_list:
-            iCard = ItemCard(item['id'])
-            full_button = iCard.CreateItemButton(item['id'], item['name'], item['category'])
+        for move in move_list_sorted:
+            iCard = ItemCard(move['id'])
+            full_button = iCard.CreateMoveButton(move['id'], move['name'], move['type'])
             self.ids.move_grid.add_widget(full_button)
 
     pass
@@ -414,7 +420,7 @@ class Trainer(Screen):
         if category == 1:
             ownedList = Trainer.trainerTeam.get_team_id_list()
         if category == 2:
-            ownedList = Trainer.trainerTeam.get_team_id_list()
+            ownedList = Trainer.trainerTeam.get_team_move_list()
         if category == 3:
             ownedList = Trainer.trainerBag.get_item_id_list()
         for owned_member in ownedList:
