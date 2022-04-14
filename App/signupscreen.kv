@@ -1,13 +1,12 @@
 <SignUpScreen>:
+    id:signup_screen
     FloatLayout:
         Button:
             size_hint: .4, .05
             pos_hint: {"center_x": .25, "top": .225}
             text: "[u]Back[/u]"
             on_release:
-                root.parent.transition = SlideTransition(direction="right")
-                root.parent.current = root.parent.current = "welcome_screen"
-                root.parent.transition = SlideTransition(direction="left")
+                root.go_back()
 
         TextInput:
             id: email
