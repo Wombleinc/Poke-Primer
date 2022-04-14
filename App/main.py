@@ -17,7 +17,7 @@ from numpy import spacing
 sys.path.append('/Poke-Primer-main/')
 import os
 
-from MoveDex.code.scripts import get_move_id_list, get_move_name_list, get_move_type_list
+from MoveDex.code.scripts import get_move_id_list, get_move_name_list, get_move_sorting_list, get_move_type_list
 from Trainer.classes import Team, TrainerBag, TrainerMoves, all_pokemon_name_list
 from Trainer.scripts import all_pokemon_id_list
 
@@ -82,7 +82,7 @@ class MoveCard(BoxLayout):
         content.add_widget(buttons)
         self.popup.open()
 
-    def CreateMoveButton(self, move_id, move_name, owned):
+    def CreateMoveButton(self, move_id, move_name, move_type, owned):
         self.id = move_id
         full_button = BoxLayout(orientation='horizontal',
                                 size_hint=(None, None), height=50)
@@ -439,23 +439,23 @@ class MoveDex(Screen):
         self.ids.name.background_normal = "button_cat_normal.png"
         self.ids.type.background_normal = "button_cat_normal.png"
         if sort == 0:
-            move_list = get_move_id_list()
-            move_name = get_move_name_list()
+            move_sorting_list = get_move_sorting_list()
+            move_sorted_list = sorted(move_sorting_list, key=lambda i:i['id'])
             self.ids.num.background_normal = "button_cat_sel.png"
 
         if sort == 1:
-            move_list = get_move_id_list()
-            move_name = get_move_name_list()
+            move_sorting_list = get_move_sorting_list()
+            move_sorted_list = sorted(move_sorting_list, key=lambda i:i['name'])
             self.ids.name.background_normal = "button_cat_sel.png"
 
         if sort == 2:
-            move_list = get_move_id_list()
-            move_name = get_move_name_list()
+            move_sorting_list = get_move_sorting_list()
+            move_sorted_list = sorted(move_sorting_list, key=lambda i:i['type'])
             self.ids.type.background_normal = "button_cat_sel.png"
 
-        for move in move_list:
+        for move in move_sorted_list:
             mCard = MoveCard(move)
-            full_button = mCard.CreateMoveButton(move, move_name[move-1], Trainer.check_for_added(move, 2))
+            full_button = mCard.CreateMoveButton(move['id'], move['name'], move['type'], Trainer.check_for_added(move['id'], 2))
             self.ids.move_grid.add_widget(full_button)
 
 class ItemDex(Screen):

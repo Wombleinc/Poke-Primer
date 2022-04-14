@@ -59,6 +59,17 @@ def get_move_type_list():
         move_type_list.append(move.move_type)
     return move_type_list
 
+def get_move_sorting_list():
+    """Populates a list of dictionaries of move ID-name-type triplets for sorting purposes in main.py.
+    Original idea adapted from code in ItemDex."""
+    move_list = get_move_list()
+    move_sorting_list = []
+    for move in move_list:
+        move_sorting_list.append(dict(id=move.move_id, name=move.name, type=move.move_type))
+    return move_sorting_list
+
+test_list = get_move_sorting_list()
+print(test_list)
 # Accessed by cards.py
 
 def get_move_name(id):
