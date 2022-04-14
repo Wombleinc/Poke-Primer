@@ -9,6 +9,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
 from kivy.uix.button import Button
 from kivy.uix.image import Image
+from kivy.uix.image import AsyncImage
 from kivy.core.window import Window
 from functools import partial
 import sys
@@ -57,7 +58,7 @@ class MoveCard(BoxLayout):
         descLabel = Label(text="change me",
                         color=(.17, .23, .2, 1),
                         font_name="PokeFont")
-        image = Image(source='poke01.png',
+        image = AsyncImage(source=myCard.sprite_url,
                         height=50,
                         allow_stretch=True)
         button = Button(text="Add",
@@ -180,6 +181,9 @@ class ItemCard(BoxLayout):
                             text_size=(None, None),
                             size=self.size,
                             font_name="PokeFont")
+            image = AsyncImage(source=myCard.sprite_url,
+                        height=50,
+                        allow_stretch=True)
             if Trainer.check_for_added(self.id, 3):
                 add_label = Label(text="In Bag:",
                             color=(.17, .23, .2, 1),
@@ -207,6 +211,7 @@ class ItemCard(BoxLayout):
                         background_down= 'light_bg.jpg',
                         color=(.64, .72, .66, 1),
                         font_name="PokeFont")
+            item.add_widget(image)
             item.add_widget(descLabel)
             content.add_widget(item)
             buttons.add_widget(close_btn)
@@ -312,7 +317,7 @@ class PokemonCard(BoxLayout):
         descLabel = Label(text=myCard.genus,
                         color=(.17, .23, .2, 1),
                         font_name="PokeFont")
-        image = Image(source='poke01.png',
+        image = AsyncImage(source=myCard.icon_url,
                         height=50,
                         allow_stretch=True)
         if Trainer.check_for_added(self.id, 1):
