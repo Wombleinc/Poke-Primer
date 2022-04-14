@@ -9,10 +9,8 @@
 
   <h3 align="center">Poke-Primer</h3>
 
-<p align="center">
+  <p align="center">
     This is a pokedex to display different pokemon and data about that pokemon. The user can then add pokemon to a team that can be used later. You can also view breakdowns of items and movesets that pokemon can use.
-    <br />
-    
     <br />
     <a href="https://github.com/Wombleinc/Poke-Primer"><strong>Explore the docs »</strong></a>
     <br />
@@ -22,6 +20,7 @@
     <a href="https://github.com/Wombleinc/Poke-Primer/issues">Request Feature</a>
   </p>
 </div>
+
 
 
 
