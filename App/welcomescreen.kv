@@ -1,4 +1,5 @@
 <WelcomeScreen>:
+    id:welcome_screen
     FloatLayout:
         Button:
             id: log_in_button
@@ -16,6 +17,4 @@
             text: "[u]Create Account[/u]"
             color: .64, .72, .66, 1
             on_release:
-                root.parent.current = "create_account_screen"
-
-
+                root.parent.current = "sign_up_screen"
