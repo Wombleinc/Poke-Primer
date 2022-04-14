@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Wombleinc/Poke-Primer">
-    <img src="poke_primer_logo.png" alt="Logo" width="800" height="600">
+    <img src="poke_primer_logo.png" alt="Logo" width="800" height="400">
   </a>
 
   <h3 align="center">Poke-Primer</h3>
@@ -59,6 +59,8 @@ This is a pokedex to display different pokemon and data about that pokemon. The 
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+<img src="pokedex.JPG" alt="Example" width="400" height="800">
 
 
 
