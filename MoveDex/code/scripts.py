@@ -68,8 +68,6 @@ def get_move_sorting_list():
         move_sorting_list.append(dict(id=move.move_id, name=move.name, type=move.move_type))
     return move_sorting_list
 
-test_list = get_move_sorting_list()
-print(test_list)
 # Accessed by cards.py
 
 def get_move_name(id):
