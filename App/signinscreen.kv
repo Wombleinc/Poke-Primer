@@ -5,9 +5,7 @@
             pos_hint: {"center_x": .25, "top": .225}
             text: "[u]Back[/u]"
             on_release:
-                app.root.transition = SlideTransition(direction="right")
-                app.root.current = "welcome_screen"
-                root.parent.transition = SlideTransition(direction="left")
+                root.go_back()
 
         TextInput:
             id: email
