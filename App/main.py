@@ -2,10 +2,10 @@ from kivy.uix.label import Label
 import kivy
 from kivy.lang import Builder
 from kivy.app import App
-from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.core.text import LabelBase
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.popup import Popup
 from kivy.uix.button import Button
 from kivy.uix.image import Image
@@ -37,11 +37,13 @@ Window.size = (414, 896)
 class MoveCard(BoxLayout):
     def __init__(self, id):
         self.id = id
-        
+    def FormatStats(self, p, a, t, c, pp):
+        return "Power: "+str(p)+"\nAccuracy: "+str(a)+"\nType: "+str(t)+"\nCategory: "+str(c)+"\nPower Points: "+str(pp)  
+    
     def GetCardMoveData(self, *args):
         myCard = CardMove(self.id)
-        move = BoxLayout(orientation="horizontal")
-        buttons = BoxLayout(orientation="horizontal")
+        move = GridLayout(cols=1,padding = 20, spacing = 20)
+        buttons = BoxLayout(orientation="horizontal", padding = 5, spacing = 30)
         content = BoxLayout(orientation="vertical")
         self.popup = Popup(title=myCard.number + " " +myCard.name,
                         size_hint=(None, None),
@@ -55,22 +57,35 @@ class MoveCard(BoxLayout):
                         separator_color=(.17, .23, .2, 1),
                         separator_height=4)
 
-        descLabel = Label(text="change me",
+        descLabel = Label(text=MoveCard.FormatStats(self,myCard.power, myCard.accuracy, myCard.type, myCard.category,myCard.pp),
                         color=(.17, .23, .2, 1),
                         font_name="PokeFont")
         image = AsyncImage(source=myCard.sprite_url,
                         height=50,
                         allow_stretch=True)
-        button = Button(text="Add",
-                    size_hint=(.3, .2),
-                    size=(50,50),
-                    background_normal= 'dark_bg.jpg',
-                    background_down= 'light_bg.jpg',
-                    color=(.64, .72, .66, 1),
-                    font_name="PokeFont")
-        button.bind(on_release=partial(self.AddToTrainer))
+        if Trainer.check_for_added(self.id, 2):
+            add_label = Label(text="On Shelf:",
+                        color=(.17, .23, .2, 1),
+                        font_name="PokeFont",
+                        size_hint=(None, .5), size=(150, 40))
+            self.card_ball_button = Button(background_normal='icon_move_added.png',
+                            background_down='icon_move_added_down.png',
+                             size_hint=(None, None), size=(40, 40),
+                             pos=(50, 0), border=(0, 0, 0, 0))
+            self.card_ball_button.bind(on_release=self.RemoveFromTrainer)
+        else:
+            add_label = Label(text="Add to Shelf:",
+                        color=(.17, .23, .2, 1),
+                        font_name="PokeFont",
+                        size_hint=(None, None), size=(150, 40))
+            self.card_ball_button = Button(background_normal='icon_move.png',
+                            background_down='icon_move_down.png',
+                             size_hint=(None, None), size=(40, 40),
+                             pos=(50, 0), border=(0, 0, 0, 0))
+            self.card_ball_button.bind(on_release=self.AddToTrainer)
         close_btn = Button(text="Close", on_press=self.popup.dismiss,
-                        size_hint=(.3, .2),
+                        size_hint=(None, None), size=(80, 40),
+                        pos=(250, 0),
                         background_normal= 'dark_bg.jpg',
                         background_down= 'light_bg.jpg',
                         color=(.64, .72, .66, 1),
@@ -78,8 +93,9 @@ class MoveCard(BoxLayout):
         move.add_widget(image)
         move.add_widget(descLabel)
         content.add_widget(move)
-        buttons.add_widget(button)
         buttons.add_widget(close_btn)
+        buttons.add_widget(add_label)
+        buttons.add_widget(self.card_ball_button)
         content.add_widget(buttons)
         self.popup.open()
 
@@ -159,14 +175,23 @@ class ItemCard(BoxLayout):
                         part.unbind(on_release=self.RemoveFromTrainer)
                         part.bind(on_release=self.AddToTrainer)
 
+    def FormatDesc(self, desc):
+        formatted = ""
+        for i, letter in enumerate(desc):
+            if letter != "\n":
+                if i % 22 == 0:
+                    formatted += '\n'
+                formatted += letter
+        return formatted
+    
     def GetCardItemData(self, *args):
             myCard = CardItem(self.id)
-            item = BoxLayout(orientation="horizontal")
+            item = GridLayout(cols=1,padding = 20, spacing = 50)
             buttons = BoxLayout(orientation="horizontal",padding = 10, spacing = 20)
             content = BoxLayout(orientation="vertical")
             self.popup = Popup(title=myCard.number + " " +myCard.name,
                             size_hint=(None, None),
-                            size=(350,500),
+                            size=(400,800),
                             auto_dismiss=False,
                             content=content,
                             background = 'light_bg.jpg',
@@ -176,34 +201,45 @@ class ItemCard(BoxLayout):
                             separator_color=(.17, .23, .2, 1),
                             separator_height=4)
             self.popup.bind(on_dismiss=lambda x: self.FixIcons(self.id))
-            descLabel = Label(text=myCard.description,
+            catLabel = Label(text=myCard.category,
+                            size_hint=(None, None),
                             color=(.17, .23, .2, 1),
-                            text_size=(None, None),
-                            size=self.size,
-                            font_name="PokeFont")
+                            font_name="PokeFont",
+                            font_size=24,
+                            width=380)
+            descLabel = Label(text=ItemCard.FormatDesc(self,myCard.description),
+                            size_hint=(None, None),
+                            pos_hint=(None, .5),
+                            color=(.17, .23, .2, 1),
+                            font_name="PokeFont",
+                            font_size=18,
+                            width=380)
             image = AsyncImage(source=myCard.sprite_url,
-                        height=50,
-                        allow_stretch=True)
+                        pos=(0,10),
+                        size_hint_y=None,
+                        width=500,
+                        allow_stretch=True,
+                        keep_ratio=True)
             if Trainer.check_for_added(self.id, 3):
                 add_label = Label(text="In Bag:",
                             color=(.17, .23, .2, 1),
                             font_name="PokeFont",
                             size_hint=(None, None), size=(150, 40))
-                self.ball_button = Button(background_normal='icon_item_added.png',
+                self.card_ball_button = Button(background_normal='icon_item_added.png',
                                 background_down='icon_item_added_down.png',
                                 size_hint=(None, None), size=(40, 40),
                                 pos=(50, 0), border=(0, 0, 0, 0))
-                self.ball_button.bind(on_release=self.RemoveFromTrainer)
+                self.card_ball_button.bind(on_release=self.RemoveFromTrainer)
             else:
                 add_label = Label(text="Add to Bag:",
                             color=(.17, .23, .2, 1),
                             font_name="PokeFont",
                             size_hint=(None, None), size=(150, 40))
-                self.ball_button = Button(background_normal='icon_item.png',
+                self.card_ball_button = Button(background_normal='icon_item.png',
                                 background_down='icon_item_down.png',
                                 size_hint=(None, None), size=(40, 40),
                                 pos=(50, 0), border=(0, 0, 0, 0))
-                self.ball_button.bind(on_release=self.AddToTrainer)
+                self.card_ball_button.bind(on_release=self.AddToTrainer)
             close_btn = Button(text="Close", on_press=self.popup.dismiss,
                         size_hint=(None, None), size=(80, 40),
                         pos=(250, 0),
@@ -212,11 +248,12 @@ class ItemCard(BoxLayout):
                         color=(.64, .72, .66, 1),
                         font_name="PokeFont")
             item.add_widget(image)
+            item.add_widget(catLabel)
             item.add_widget(descLabel)
             content.add_widget(item)
             buttons.add_widget(close_btn)
             buttons.add_widget(add_label)
-            buttons.add_widget(self.ball_button)
+            buttons.add_widget(self.card_ball_button)
             content.add_widget(buttons)
             self.popup.open()
 
@@ -252,23 +289,50 @@ class ItemCard(BoxLayout):
         return full_button
 
     def AddToTrainer(self, *args):
-        self.ball_button.background_normal='icon_item_added.png'
-        self.ball_button.background_down='icon_item_added_down.png'
-        self.ball_button.unbind(on_release=self.AddToTrainer)
-        self.ball_button.bind(on_release=self.RemoveFromTrainer)
-        print("Adding")
-        # This function now saves teams to json instead of csv
-        Trainer.trainerBag.add_item(self.id)
-        Trainer.trainerBag.save_bag_to_json()
-
+        if not Trainer.check_for_added(self.id, 3):
+            self.ball_button.background_normal='icon_item_added.png'
+            self.ball_button.background_down='icon_item_added_down.png'
+            self.ball_button.unbind(on_release=self.AddToTrainer)
+            self.ball_button.bind(on_release=self.RemoveFromTrainer)
+            print("Adding")
+        
+            # This function now saves teams to json instead of csv
+            Trainer.trainerBag.add_item(self.id)
+            Trainer.trainerBag.save_bag_to_json()
+            print(Trainer.check_for_added(self.id, 3))
+        else:
+            self.ball_button.background_normal='icon_item.png'
+            self.ball_button.background_down='icon_item_down.png'
+            self.ball_button.unbind(on_release=self.RemoveFromTrainer)
+            self.ball_button.bind(on_release=self.AddToTrainer)
+            print("Removing")
+            
+            Trainer.trainerBag.remove_item(self.id)
+            Trainer.trainerBag.save_bag_to_json()
+            print(Trainer.check_for_added(self.id, 3))
     def RemoveFromTrainer(self, *args):
-        self.ball_button.background_normal='icon_item.png'
-        self.ball_button.background_down='icon_item_down.png'
-        self.ball_button.unbind(on_release=self.RemoveFromTrainer)
-        self.ball_button.bind(on_release=self.AddToTrainer)
-        print("Removing")
-        Trainer.trainerBag.remove_item(self.id)
-        Trainer.trainerBag.save_bag_to_json()
+        if Trainer.check_for_added(self.id, 3):
+            self.ball_button.background_normal='icon_item.png'
+            self.ball_button.background_down='icon_item_down.png'
+            self.ball_button.unbind(on_release=self.RemoveFromTrainer)
+            self.ball_button.bind(on_release=self.AddToTrainer)
+            print("Removing")
+            
+            Trainer.trainerBag.remove_item(self.id)
+            Trainer.trainerBag.save_bag_to_json()
+            print(Trainer.check_for_added(self.id, 3))
+        else:
+
+            self.ball_button.background_normal='icon_item_added.png'
+            self.ball_button.background_down='icon_item_added_down.png'
+            self.ball_button.unbind(on_release=self.AddToTrainer)
+            self.ball_button.bind(on_release=self.RemoveFromTrainer)
+            print("Adding")
+        
+            # This function now saves teams to json instead of csv
+            Trainer.trainerBag.add_item(self.id)
+            Trainer.trainerBag.save_bag_to_json()
+            print(Trainer.check_for_added(self.id, 3))
 
 class PokemonCard(BoxLayout):
     def __init__(self, id):
@@ -297,14 +361,17 @@ class PokemonCard(BoxLayout):
                         part.unbind(on_release=self.RemoveFromTrainer)
                         part.bind(on_release=self.AddToTrainer)
 
+    def FormatStats(self, hp, at, de, sa, sd, sp):
+        return "HP: "+str(hp)+"\nAttack: "+str(at)+"\nDefense: "+str(de)+"\nSp.Attack: "+str(sa)+"\nSp.Defense: "+str(sd)+"\nSpeed: "+str(sp)
+    
     def GetCardPokemonData(self, *args):
         myCard = CardPokemon(self.id)
-        pokemon = BoxLayout(orientation="horizontal")
-        buttons = BoxLayout(orientation="horizontal", padding = 10, spacing = 20)
+        pokemon = GridLayout(cols=1,padding = 20, spacing = 20)
+        buttons = BoxLayout(orientation="horizontal", padding = 5, spacing = 30)
         content = BoxLayout(orientation="vertical")
         self.popup = Popup(title=myCard.number + " " +myCard.name,
                         size_hint=(None, None),
-                        size=(350,500),
+                        size=(400,800),
                         auto_dismiss=False,
                         content=content,
                         background = 'light_bg.jpg',
@@ -314,32 +381,55 @@ class PokemonCard(BoxLayout):
                         separator_color=(.17, .23, .2, 1),
                         separator_height=4)
         self.popup.bind(on_dismiss=lambda x: self.FixIcons(self.id))
-        descLabel = Label(text=myCard.genus,
+        genusLabel = Label(text=myCard.genus,
+                        size_hint=(None, None),
                         color=(.17, .23, .2, 1),
-                        font_name="PokeFont")
+                        font_name="PokeFont",
+                        font_size=24,
+                        width=380)
+        typeLabel = Label(text=myCard.type_1 + " / "+ myCard.type_2,
+                        size_hint=(None, None),
+                        color=(.17, .23, .2, 1),
+                        font_name="PokeFont",
+                        font_size=24,
+                        width=380)
+        statLabel = Label(text=PokemonCard.FormatStats(self, myCard.hp, myCard.attack, myCard.defense, myCard.special_attack, myCard.special_defense, myCard.speed),
+                        size_hint=(None, None),
+                        color=(.17, .23, .2, 1),
+                        font_name="PokeFont",
+                        font_size=20,
+                        width=380)
+        genLabel = Label(text="Generation: "+str(myCard.generation),
+                        size_hint=(None, None),
+                        color=(.17, .23, .2, 1),
+                        font_name="PokeFont",
+                        width=380)
         image = AsyncImage(source=myCard.icon_url,
-                        height=50,
-                        allow_stretch=True)
+                        pos=(0,10),
+                        size_hint_y=None,
+                        width=500,
+                        allow_stretch=True,
+                        keep_ratio=True)
         if Trainer.check_for_added(self.id, 1):
             add_label = Label(text="In Team:",
                         color=(.17, .23, .2, 1),
                         font_name="PokeFont",
-                        size_hint=(None, None), size=(150, 40))
-            self.ball_button = Button(background_normal='icon_ball_added.png',
+                        size_hint=(None, .5), size=(150, 40))
+            self.card_ball_button = Button(background_normal='icon_ball_added.png',
                             background_down='icon_ball_added_down.png',
                              size_hint=(None, None), size=(40, 40),
                              pos=(50, 0), border=(0, 0, 0, 0))
-            self.ball_button.bind(on_release=self.RemoveFromTrainer)
+            self.card_ball_button.bind(on_release=self.RemoveFromTrainer)
         else:
             add_label = Label(text="Add to Team:",
                         color=(.17, .23, .2, 1),
                         font_name="PokeFont",
                         size_hint=(None, None), size=(150, 40))
-            self.ball_button = Button(background_normal='icon_ball.png',
+            self.card_ball_button = Button(background_normal='icon_ball.png',
                             background_down='icon_ball_down.png',
                              size_hint=(None, None), size=(40, 40),
                              pos=(50, 0), border=(0, 0, 0, 0))
-            self.ball_button.bind(on_release=self.AddToTrainer)
+            self.card_ball_button.bind(on_release=self.AddToTrainer)
         close_btn = Button(text="Close", on_press=self.popup.dismiss,
                         size_hint=(None, None), size=(80, 40),
                         pos=(250, 0),
@@ -348,11 +438,14 @@ class PokemonCard(BoxLayout):
                         color=(.64, .72, .66, 1),
                         font_name="PokeFont")
         pokemon.add_widget(image)
-        pokemon.add_widget(descLabel)
+        pokemon.add_widget(genusLabel)
+        pokemon.add_widget(typeLabel)
+        pokemon.add_widget(statLabel)
+        pokemon.add_widget(genLabel)
         content.add_widget(pokemon)
         buttons.add_widget(close_btn)
         buttons.add_widget(add_label)
-        buttons.add_widget(self.ball_button)
+        buttons.add_widget(self.card_ball_button)
         content.add_widget(buttons)
         self.popup.open()
 
@@ -389,22 +482,42 @@ class PokemonCard(BoxLayout):
         return full_button
 
     def AddToTrainer(self, *args):
-        self.ball_button.background_normal='icon_ball_added.png'
-        self.ball_button.background_down='icon_ball_added_down.png'
-        self.ball_button.unbind(on_release=self.AddToTrainer)
-        self.ball_button.bind(on_release=self.RemoveFromTrainer)
+        if not Trainer.check_for_added(self.id, 3):
+            self.ball_button.background_normal='icon_ball_added.png'
+            self.ball_button.background_down='icon_ball_added_down.png'
+            self.ball_button.unbind(on_release=self.AddToTrainer)
+            self.ball_button.bind(on_release=self.RemoveFromTrainer)
+            print("Adding")
 
-        Trainer.trainerTeam.add_from_id_to_team(self.id)
-        Trainer.trainerTeam.save_team_to_json()
-
+            Trainer.trainerTeam.add_from_id_to_team(self.id)
+            Trainer.trainerTeam.save_team_to_json()
+        else:
+            self.ball_button.background_normal='icon_ball.png'
+            self.ball_button.background_down='icon_ball_down.png'
+            self.ball_button.unbind(on_release=self.RemoveFromTrainer)
+            self.ball_button.bind(on_release=self.AddToTrainer)
+            print("Removing")
+            Trainer.trainerTeam.remove_pokemon(self.id)
+            Trainer.trainerTeam.save_team_to_json()
     def RemoveFromTrainer(self, *args):
-        self.ball_button.background_normal='icon_ball.png'
-        self.ball_button.background_down='icon_ball_down.png'
-        self.ball_button.unbind(on_release=self.RemoveFromTrainer)
-        self.ball_button.bind(on_release=self.AddToTrainer)
+        if Trainer.check_for_added(self.id, 1):
+            self.ball_button.background_normal='icon_ball.png'
+            self.ball_button.background_down='icon_ball_down.png'
+            self.ball_button.unbind(on_release=self.RemoveFromTrainer)
+            self.ball_button.bind(on_release=self.AddToTrainer)
+            print("Removing")
 
-        Trainer.trainerTeam.remove_pokemon(self.id)
-        Trainer.trainerTeam.save_team_to_json()
+            Trainer.trainerTeam.remove_pokemon(self.id)
+            Trainer.trainerTeam.save_team_to_json()
+        else:
+
+            self.ball_button.background_normal='icon_ball_added.png'
+            self.ball_button.background_down='icon_ball_added_down.png'
+            self.ball_button.unbind(on_release=self.AddToTrainer)
+            self.ball_button.bind(on_release=self.RemoveFromTrainer)
+            print("Adding")
+            Trainer.trainerTeam.add_from_id_to_team(self.id)
+            Trainer.trainerTeam.save_team_to_json()
 
 class PokeDex(Screen):
 
