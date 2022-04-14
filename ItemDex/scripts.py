@@ -41,14 +41,26 @@ def get_item_id_name_cat_list():
     with open("PokemonData/item.json", 'r') as json_file:
         item_dictionary = json.load(json_file)
     item_id_name_cat_list = []
-    for i in range(0, 50):   # Shortened to 50 items to decrease load times
+    for i in range(0, 309): 
         item_id_name_cat_list.append(dict(id=item_dictionary["item"][i]["ID"],
                                           name=item_dictionary["item"][i]["Name"],
                                           category=item_dictionary["item"][i]["Category"]))
     return item_id_name_cat_list
 
 
-
+# def write_first_gen_items_to_json():
+#     dictionary = {"item": []}
+#     with open("C:/PokePrimer-jsons/item.json", 'r') as json_file:
+#         item_dictionary = json.load(json_file)
+#     id_counter = 0
+#     for item in item_dictionary["item"]:
+#         if "generation-iii" in item["Generation"]:
+#             id_counter += 1
+#             item["ID"] = id_counter
+#             dictionary["item"].append(item)
+#     result = json.dumps(dictionary, indent=3)
+#     with open('C:/PokePrimer-jsons/gen_one_item.json', 'w') as outfile:
+#         outfile.write(result)
 
 #def write_items_to_json():
 #    url = "https://pokeapi.co/api/v2/item/"
