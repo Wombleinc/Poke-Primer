@@ -530,7 +530,7 @@ class Trainer(Screen):
         i = 0
         for i in range(len(move_id_list)):
             mCard = MoveCard(move_id_list[i])
-            button = mCard.CreateMoveButton(move_id_list[i], move_name_list[i], True)
+            button = mCard.CreateMoveButton(move_id_list[i], move_name_list[i], move_type_list[i], True)
             self.ids.trainer_grid.add_widget(button)
             i += 1
 
