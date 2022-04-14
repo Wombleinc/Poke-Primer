@@ -4,7 +4,8 @@
         Button:
             size_hint: .4, .05
             pos_hint: {"center_x": .25, "top": .225}
-            text: "[u]Back[/u]"
+            text: "Back"
+            font_name: "PokeFont"
             on_release:
                 root.go_back()
 
@@ -26,7 +27,8 @@
 
 
         Button:
-            text: "[u]Create Account[/u]"
+            text: "Create Account"
+            font_name: "PokeFont"
             size_hint: .4 ,.05
             pos_hint: {"center_x": .75, "top": .45}
             on_release:
@@ -38,7 +40,8 @@
 
         Button:
             id: sign_in_button
-            text: "[u]Sign in[/u]"
+            text: "Sign in"
+            font_name: "PokeFont"
             size_hint: .2 ,.05
             pos_hint: {"right": .85, "center_y": .1}
             opacity: 0

@@ -1,12 +1,17 @@
 <WelcomeScreen>:
     id:welcome_screen
     FloatLayout:
+        Image:
+            source: 'poke_primer_logo.png'
+            size_hint: 1, 1
+            pos_hint: {"center_x": .5, "center_y": .85}
+
         Button:
             id: log_in_button
             size_hint: .9, .05
             pos_hint: {"top": .3, "center_x": .5}
-            text: "[u]Sign In[/u]"
-            color: .64, .72, .66, 1
+            text: "Sign In"
+            font_name: "PokeFont"
             on_release:
                 root.parent.current = "sign_in_screen"
 
@@ -14,7 +19,7 @@
             id: create_account_button
             size_hint: .9, .05
             pos_hint: {"top": .225, "center_x": .5}
-            text: "[u]Create Account[/u]"
-            color: .64, .72, .66, 1
+            text: "Create Account"
+            font_name: "PokeFont"
             on_release:
                 root.parent.current = "sign_up_screen"

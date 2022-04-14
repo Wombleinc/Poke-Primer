@@ -1,10 +1,11 @@
 <FirebaseLoginScreen>:
-    background: ""
     canvas.before:
+        Color:
+            rgba: .64, .72, .66, 1
         Rectangle:
-            size: self.size
             pos: self.pos
-            source: root.background
+            size: self.size
+        
     on_email_exists:
         sign_up_screen.ids.sign_in_button.disabled = False
         sign_up_screen.ids.sign_in_button.opacity = 1
