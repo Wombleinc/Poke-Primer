@@ -18,7 +18,7 @@ sys.path.append('/Poke-Primer-main/')
 import os
 
 from MoveDex.code.scripts import get_move_id_list, get_move_name_list, get_move_type_list
-from Trainer.classes import Team, TrainerBag, all_pokemon_name_list
+from Trainer.classes import Team, TrainerBag, TrainerMoves, all_pokemon_name_list
 from Trainer.scripts import all_pokemon_id_list
 
 from card import CardPokemon
@@ -54,7 +54,7 @@ class MoveCard(BoxLayout):
                         separator_color=(.17, .23, .2, 1),
                         separator_height=4)
 
-        descLabel = Label(text=myCard.description,
+        descLabel = Label(text="change me",
                         color=(.17, .23, .2, 1),
                         font_name="PokeFont")
         image = Image(source='poke01.png',
@@ -96,11 +96,18 @@ class MoveCard(BoxLayout):
                         background_down=ROOT_DIR + 'light_bg.jpg',
                         color=(.64, .72, .66, 1), font_name="PokeFont")
         button.bind(on_release=partial(self.GetCardMoveData))
-        self.ball_button = Button(background_normal='icon_move.png',
+        if owned:
+            self.ball_button = Button(background_normal='icon_move_added.png',
+                            background_down='icon_move_added_down.png',
+                             size_hint=(None, None), size=(40, 40),
+                             pos=(50, 0), border=(0, 0, 0, 0))
+            self.ball_button.bind(on_release=self.RemoveFromTrainer)
+        else:
+            self.ball_button = Button(background_normal='icon_move.png',
                             background_down='icon_move_down.png',
                              size_hint=(None, None), size=(40, 40),
                              pos=(50, 0), border=(0, 0, 0, 0))
-        self.ball_button.bind(on_release=self.AddToTrainer)
+            self.ball_button.bind(on_release=self.AddToTrainer)
         full_button.add_widget(lbl_number)
         full_button.add_widget(button)
         full_button.add_widget(self.ball_button)
@@ -112,11 +119,17 @@ class MoveCard(BoxLayout):
         self.ball_button.unbind(on_release=self.AddToTrainer)
         self.ball_button.bind(on_release=self.RemoveFromTrainer)
 
+        Trainer.trainerMoves.add_move(self.id)
+        Trainer.trainerMoves.save_moves_to_json()
+
     def RemoveFromTrainer(self, *args):
         self.ball_button.background_normal='icon_move.png'
         self.ball_button.background_down='icon_move_down.png'
         self.ball_button.unbind(on_release=self.RemoveFromTrainer)
         self.ball_button.bind(on_release=self.AddToTrainer)
+
+        Trainer.trainerMoves.remove_move(self.id)
+        Trainer.trainerMoves.save_moves_to_json()
 
 class ItemCard(BoxLayout):
     def __init__(self, id):
@@ -431,11 +444,13 @@ class MoveDex(Screen):
             self.ids.num.background_normal = "button_cat_sel.png"
 
         if sort == 1:
-            move_list = get_move_name_list()
+            move_list = get_move_id_list()
+            move_name = get_move_name_list()
             self.ids.name.background_normal = "button_cat_sel.png"
 
         if sort == 2:
-            move_list = get_move_type_list()
+            move_list = get_move_id_list()
+            move_name = get_move_name_list()
             self.ids.type.background_normal = "button_cat_sel.png"
 
         for move in move_list:
@@ -473,18 +488,20 @@ class Trainer(Screen):
 
     trainerTeam = Team()
     trainerBag = TrainerBag()
+    trainerMoves = TrainerMoves()
 
     def check_for_added(id, category):
         if category == 1:
             ownedList = Trainer.trainerTeam.get_team_id_list()
         if category == 2:
-            ownedList = Trainer.trainerTeam.get_team_id_list()
+            ownedList = Trainer.trainerMoves.get_move_id_list()
         if category == 3:
             ownedList = Trainer.trainerBag.get_item_id_list()
         for owned_member in ownedList:
             if owned_member == id:
                 return True
         return False
+    
     def ResetCatIcons(self):
         self.ids.poke.background_normal = "button_cat_normal.png"
         self.ids.moves.background_normal = "button_cat_normal.png"
@@ -503,6 +520,20 @@ class Trainer(Screen):
                 self.ids.trainer_grid.add_widget(button)
             i += 1
     
+    def GenerateMoves(self):
+        self.ids.trainer_grid.clear_widgets()
+        self.ids.moves.background_normal = "button_cat_sel.png"
+        
+        move_id_list = self.trainerMoves.get_move_id_list()
+        move_name_list = self.trainerMoves.get_move_name_list()
+        move_type_list = self.trainerMoves.get_move_type_list()
+        i = 0
+        for i in range(len(move_id_list)):
+            mCard = MoveCard(move_id_list[i])
+            button = mCard.CreateMoveButton(move_id_list[i], move_name_list[i], True)
+            self.ids.trainer_grid.add_widget(button)
+            i += 1
+
     def GenerateItems(self):
         self.ids.trainer_grid.clear_widgets()
         self.ids.item_button.background_normal = "button_cat_sel.png"
@@ -512,8 +543,8 @@ class Trainer(Screen):
         item_category_list = self.trainerBag.get_item_category_list()
         i = 0
         for i in range(len(item_id_list)):
-            mCard = ItemCard(item_id_list[i])
-            button = mCard.CreateItemButton(item_id_list[i], item_name_list[i], item_category_list[i], True)
+            iCard = ItemCard(item_id_list[i])
+            button = iCard.CreateItemButton(item_id_list[i], item_name_list[i], item_category_list[i], True)
             self.ids.trainer_grid.add_widget(button)
             i += 1
 
