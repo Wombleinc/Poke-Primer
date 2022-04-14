@@ -136,3 +136,11 @@ def get_move_pp(id):
             move_pp = move.pp
 
     return move_pp
+
+def get_move_sprite_url(id):
+    """Christopher Duke: Grabs a specific Technical Machine Type sprite by ID that matches the type of the move."""
+    move_type = get_move_type(id)
+
+    move_sprite_url = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-' + move_type.lower() + '.png'
+
+    return move_sprite_url
