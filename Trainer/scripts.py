@@ -43,6 +43,23 @@ def get_pokemon_info(pokemon_id):
     return info_dict
 
 
+def get_pokemon_sorting_list():
+    poke_data = load_pokemon_data()
+
+    poke_dict = {}
+
+    poke_sorting_list = []
+    for pokemon in range(POKEDEX_SIZE):
+        poke_sorting_list.append(dict(
+            id=poke_data['pokemon'][pokemon]['ID'],
+            name=poke_data['pokemon'][pokemon]['Name'],
+            type=poke_data['pokemon'][pokemon]['Type 1']
+            )
+        )
+    
+    return poke_sorting_list
+
+
 def get_pokemon_genus(pokemon_id):
     index = pokemon_id - 1
     pokemon_data = load_pokemon_data()
