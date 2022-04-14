@@ -60,6 +60,14 @@ def get_pokemon_sorting_list():
     return poke_sorting_list
 
 
+def get_pokemon_icon_url(pokemon_id):
+    poke_data = request_data('https://pokeapi.co/api/v2/pokemon/' + str(pokemon_id))
+
+    poke_icon_url = poke_data['sprites']['versions']['generation-vii']['icons']['front_default']
+
+    return poke_icon_url
+
+
 def get_pokemon_genus(pokemon_id):
     index = pokemon_id - 1
     pokemon_data = load_pokemon_data()
