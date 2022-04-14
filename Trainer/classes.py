@@ -148,7 +148,6 @@ class Team:
                     remove_id = count
                     break
                 count += 1
-        if remove_id != 0:
             self.members.pop(remove_id)
             self.members.append(Pokemon())
 
