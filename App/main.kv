@@ -18,13 +18,13 @@
             size: 414, 32
             allow_stretch: True
             keep_ratio: False
-        ScreenManagement:
+        ScreenManager:
             id: info_sm
             name: "info_sm"
             FirebaseLoginScreen:
                 id: firebase_login_screen
                 name: "firebase_login_screen"
-                debug: True
+                debug: False
                 remember_user: True
                 require_email_verification: True
                 web_api_key: "AIzaSyCVAZHLsIkT62IyXIQ0p6JMDioZ5-NPVrQ" # This should be YOUR web_api_key
@@ -38,8 +38,7 @@
 
                     if self.login_state == 'in': app.local_id = self.localId
                     if self.login_state == 'in': app.user_idToken = self.idToken
-                    if self.login_state == 'in': app.display_user_tokens()
-                    if self.login_state == 'in': screen_manager.current = 'poke'
+                    if self.login_state == 'in': info_sm.current = 'poke'
             PokeDex:
             MoveDex:
             ItemDex:
@@ -113,6 +112,7 @@
                 root.parent.parent.ButtonClick(3)
                 root.FixMenu(3)
 <PokeDex>:
+    id:poke
     name: "poke"
     BoxLayout:
         canvas.before:
