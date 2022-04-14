@@ -1,35 +1,31 @@
 <SignInScreen>:
     FloatLayout:
-        MDToolbar:
-            md_bg_color: 0,0,0,0
-            elevation: 0
-            pos_hint: {"top": 1}
-            left_action_items: [['chevron-left', lambda x: root.go_back()]]
-            specific_text_color: 0,0,0,1
+        Button:
+            size_hint: .4, .05
+            pos_hint: {"center_x": .25, "top": .225}
+            text: "[u]Back[/u]"
+            on_release:
+                root.go_back()
 
-        MDTextField:
+        TextInput:
             id: email
-            size_hint_x: .9
+            size_hint: .9 ,.1
             pos_hint: {"center_x": .5, "top": .7}
-            mode: "fill"
-            fill_color: 0, 0, 0, .4
             hint_text: "Email"
-            line_color_focus: 1, 1, 1, 1
 
 
-        MDTextField:
+        TextInput:
             id: password
-            size_hint_x: .9
+            size_hint: .9 ,.1
             pos_hint: {"center_x": .5, "top": .575}
-            mode: "fill"
-            helper_text: "Password must be at least 6 characters in Length"
-            fill_color: 0, 0, 0, .4
-            line_color_focus: 1, 1, 1, 1
             hint_text: "Password"
             password: True
+            helper_text: "Password must be at least 6 characters"
+            helper_text_mode: "on_focus"
 
-        MDRaisedButton:
-            text: "Reset Password"
+
+        Button:
+            text: "[u]Reset Password[/u]"
             size_hint: .4 ,.05
             pos_hint: {"center_x": .25, "top": .45}
             on_release:
@@ -40,8 +36,8 @@
                 root.parent.parent.display_loading_screen()
 
 
-        MDRaisedButton:
-            text: "Sign In"
+        Button:
+            text: "[u]Sign In[/u]"
             size_hint: .4 ,.05
             pos_hint: {"center_x": .75, "top": .45}
             on_release:
@@ -51,14 +47,14 @@
                 sign_in_button.disabled = True
                 root.parent.parent.display_loading_screen()
 
-        MDRaisedButton:
+        Button:
             id: sign_in_button
-            text: "Sign up"
-            size_hint: .4 ,.05
-            pos_hint: {"center_x": .75, "center_y": .25}
+            text: "[u]Sign up[/u]"
+            size_hint: .2 ,.05
+            pos_hint: {"right": .85, "center_y": .1}
             opacity: 0
             disabled: True
             on_release:
-                root.parent.current = "sign_up_screen"
-                root.parent.parent.ids.sign_up_screen.ids.email.text = email.text
-                root.parent.parent.ids.sign_up_screen.ids.password.text = password.text
+                root.parent.current = "create_account_screen"
+                root.parent.parent.ids.create_account_screen.ids.email.text = email.text
+                root.parent.parent.ids.create_account_screen.ids.password.text = password.text

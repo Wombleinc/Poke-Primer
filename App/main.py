@@ -296,7 +296,7 @@ class PokemonCard(BoxLayout):
                         separator_color=(.17, .23, .2, 1),
                         separator_height=4)
         self.popup.bind(on_dismiss=lambda x: self.FixIcons(self.id))
-        descLabel = Label(text=myCard.description,
+        descLabel = Label(text=myCard.genus,
                         color=(.17, .23, .2, 1),
                         font_name="PokeFont")
         image = Image(source='poke01.png',
