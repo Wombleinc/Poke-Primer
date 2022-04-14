@@ -19,7 +19,7 @@ import os
 
 from MoveDex.code.scripts import get_move_id_list, get_move_name_list, get_move_sorting_list, get_move_type_list
 from Trainer.classes import Team, TrainerBag, TrainerMoves, all_pokemon_name_list
-from Trainer.scripts import all_pokemon_id_list
+from Trainer.scripts import all_pokemon_id_list, get_pokemon_sorting_list
 
 from card import CardPokemon
 from card import CardItem
@@ -410,25 +410,25 @@ class PokeDex(Screen):
         self.ids.type.background_normal = "button_cat_normal.png"
         if sort == 0:
             """These two arrays are taking place of reading the data from the DB"""
-            pokeIDList = all_pokemon_id_list()
-            pokeIDName = all_pokemon_name_list()
+            poke_sorting_list = get_pokemon_sorting_list()
+            poke_sorted_list = sorted(poke_sorting_list, key=lambda i:i['id'])
             self.ids.num.background_normal = "button_cat_sel.png"
             """The above arrays need to be fixed to access dbs"""
         if sort == 1:
             """These two arrays are taking place of reading the data from the DB"""
-            pokeIDList = all_pokemon_id_list()
-            pokeIDName = all_pokemon_name_list()
+            poke_sorting_list = get_pokemon_sorting_list()
+            poke_sorted_list = sorted(poke_sorting_list, key=lambda i:i['name'])
             self.ids.name.background_normal = "button_cat_sel.png"
             """The above arrays need to be fixed to access dbs"""
         if sort == 2:
             """These two arrays are taking place of reading the data from the DB"""
-            pokeIDList = all_pokemon_id_list()
-            pokeIDName = all_pokemon_name_list()
+            poke_sorting_list = get_pokemon_sorting_list()
+            poke_sorted_list = sorted(poke_sorting_list, key=lambda i:i['type'])
             self.ids.type.background_normal = "button_cat_sel.png"
             """The above arrays need to be fixed to access dbs"""
-        for poke in pokeIDList:
+        for poke in poke_sorted_list:
             pCard = PokemonCard(poke)
-            full_button = pCard.CreatePokeButton(poke, pokeIDName[poke], Trainer.check_for_added(poke, 1))
+            full_button = pCard.CreatePokeButton(poke['id'], poke['name'], Trainer.check_for_added(poke['id'], 1))
             self.ids.poke_grid.add_widget(full_button)
 
 class MoveDex(Screen):
