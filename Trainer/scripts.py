@@ -107,7 +107,7 @@ def load_pokemon_data():
     :return: a json file of pokemon information to be read.
              This data is read from \PokemonData\pokemon_data.json
     """
-    with open(ROOT_DIR + "PokemonData\\pokemon_data.json", "r") as json_file:
-        pokemon_data = json.load(json_file)
+    with open(ROOT_DIR + "PokemonData\\pokemon_data.json", "r", encoding='utf-8') as json_file:
+        pokemon_data = json.load(json_file, )
 
     return pokemon_data
