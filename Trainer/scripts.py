@@ -22,6 +22,27 @@ def get_pokemon_name(pokemon_id):
     return pokemon_data['pokemon'][index]['Name']
 
 
+def get_pokemon_info(pokemon_id):
+    index = pokemon_id - 1
+    pokemon_data = load_pokemon_data()
+
+    info_dict = {
+        "Name": pokemon_data['pokemon'][index]['Name'],
+        "Genus": pokemon_data['pokemon'][index]['Genus'],
+        "Type 1": pokemon_data['pokemon'][index]['Type 1'],
+        "Type 2": pokemon_data['pokemon'][index]['Type 2'],
+        "HP": pokemon_data['pokemon'][index]['HP'],
+        "Attack": pokemon_data['pokemon'][index]['Attack'],
+        "Defense": pokemon_data['pokemon'][index]['Defense'],
+        "Special Attack": pokemon_data['pokemon'][index]['Special Attack'],
+        "Special Defense": pokemon_data['pokemon'][index]['Special Defense'],
+        "Speed": pokemon_data['pokemon'][index]['Speed'],
+        "Generation": pokemon_data['pokemon'][index]['Generation'],
+    }
+
+    return info_dict
+
+
 def get_pokemon_genus(pokemon_id):
     index = pokemon_id - 1
     pokemon_data = load_pokemon_data()
