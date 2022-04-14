@@ -2,10 +2,13 @@
 # Trainer/classes.py
 import json
 import os
+from MoveDex.code.scripts import get_move_list
+
 ROOT_DIR = os.path.split(os.path.dirname(__file__))[0] + "\\"
 
 from Trainer.scripts import all_pokemon_name_list
 from ItemDex.Item import Item
+from MoveDex.code.move import Move
 
 
 def create_pokemon_from_id(pokemon_id):
@@ -276,3 +279,59 @@ class TrainerBag:
 
         with open(ROOT_DIR + "Trainer\\bag.json", "w") as json_file:
             json.dump(bag_dict, json_file, indent=4)
+
+class TrainerMoves:
+
+    def __init__(self):
+        self.members = []
+    
+    def add_move(self, id):
+        move_list = get_move_list()
+
+        new_move = move_list[id-1]
+        self.members.append(new_move)
+    
+    def remove_move(self, id):
+        for move in self.members:
+            if move.move_id == id:
+                self.members.remove(move)
+                break
+    
+    def get_move_id_list(self):
+        move_list = []
+        for move in self.members:
+            move_list.append(move.move_id)
+        return move_list
+    
+    def get_move_name_list(self):
+        move_list = []
+        for move in self.members:
+            move_list.append(move.name)
+        return move_list
+    
+    def get_move_type_list(self):
+        move_list = []
+        for move in self.members:
+            move_list.append(move.move_type)
+        return move_list
+    
+    def save_moves_to_json(self):
+        move_dict = {
+            "moves": []
+        }
+
+        for move in self.members:
+            new_data = {
+                "move_id": int(move.move_id),
+                "move_name": move.name,
+                "move_type": move.move_type,
+                "move_category": move.category,
+                "move_pp": move.pp,
+                "move_power": move.power,
+                "move_accuracy": move.accuracy
+            }
+
+            move_dict["moves"].append(new_data)
+        
+        with open(ROOT_DIR + "Trainer\\moves.json", "w") as json_file:
+            json.dump(move_dict, json_file, indent=4)
