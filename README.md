@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Wombleinc/Poke-Primer">
-    <img src="poke_primer_logo.png" alt="Logo" width="1200" height="900">
+    <img src="poke_primer_logo.png" alt="Logo" width="1000" height="700">
   </a>
 
   <h3 align="center">Poke-Primer</h3>
