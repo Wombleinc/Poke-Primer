@@ -55,21 +55,11 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
 This is a pokedex to display different pokemon and data about that pokemon. The user can then add pokemon to a team that can be used later. You can also view breakdowns of items and movesets that pokemon can use.
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
-
-<!-- GETTING STARTED -->
-## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
 
 
 <!-- ROADMAP -->
@@ -82,6 +72,7 @@ To get a local copy up and running follow these simple example steps.
 - [ ] Multi-language Support
     - [ ] Chinese
     - [ ] Spanish
+    - [ ] These are placeholders to be changed.
 
 
 <!-- CONTRIBUTING -->
