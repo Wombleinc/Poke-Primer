@@ -60,7 +60,7 @@ This is a pokedex to display different pokemon and data about that pokemon. The 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<img src="pokedex.png" alt="Example" width="400" height="800">
+<img src="pokedex.jpg" alt="Example" width="400" height="800">
 
 
 
