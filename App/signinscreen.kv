@@ -6,7 +6,9 @@
             text: "Back"
             font_name: "PokeFont"
             on_release:
-                root.go_back()
+                root.parent.transition = SlideTransition(direction="right")
+                root.parent.current = root.parent.current = "welcome_screen"
+                root.parent.transition = SlideTransition(direction="left")
 
         TextInput:
             id: email
@@ -28,7 +30,7 @@
         Button:
             text: "Reset Password"
             font_name: "PokeFont"
-            font_size: 11
+            font_size: 10
             size_hint: .4 ,.05
             pos_hint: {"center_x": .25, "top": .45}
             on_release:
@@ -60,6 +62,6 @@
             opacity: 0
             disabled: True
             on_release:
-                root.parent.current = "create_account_screen"
-                root.parent.parent.ids.create_account_screen.ids.email.text = email.text
-                root.parent.parent.ids.create_account_screen.ids.password.text = password.text
+                root.parent.current = "sign_up_screen"
+                root.parent.parent.ids.sign_up_screen.ids.email.text = email.text
+                root.parent.parent.ids.sign_up_screen.ids.password.text = password.text
