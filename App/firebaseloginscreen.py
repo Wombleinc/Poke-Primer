@@ -23,7 +23,6 @@ Builder.load_file(folder + "/signinscreen.kv")
 Builder.load_file(folder + "/signupscreen.kv")
 Builder.load_file(folder + "/welcomescreen.kv")
 Builder.load_file(folder + "/loadingpopup.kv")
-Builder.load_file(folder + "/firebaseloginscreen.kv")
 
 # Import the screens used to log the user in
 from welcomescreen import WelcomeScreen
@@ -88,24 +87,21 @@ class FirebaseLoginScreen(Screen, EventDispatcher):
         self.ids.sign_up_screen.ids.password.text = ''
 
 
-    def on_login_success(self, screen_name, login_success_boolean):
+    def on_login_success(self, *args):
         """Overwrite this method to switch to your app's home screen.
         """
-        print("Testing", self.login_success, self.login_state)
-        print("self.login_success=", login_success_boolean)
+        print("Logged in successfully", args)
 
     def on_web_api_key(self, *args):
         """When the web api key is set, look for an existing account in local
         memory.
         """
         # Try to load the users info if they've already created an account
-        self.refresh_token_file = App.get_running_app().user_data_dir + "/refresh_token.txt"
+        self.refresh_token_file = App.get_running_app().user_data_dir + "refresh_token.txt"
         if self.debug:
             print("Looking for a refresh token in:", self.refresh_token_file)
-        if self.remember_user:
-            print("REMEMBER USER IS TRUE")
-            if os.path.exists(self.refresh_token_file):
-                self.load_saved_account()
+        if os.path.exists(self.refresh_token_file):
+            self.load_saved_account()
 
     def sign_up(self, email, password):
         """If you don't want to use Firebase, just overwrite this method and
@@ -164,8 +160,13 @@ class FirebaseLoginScreen(Screen, EventDispatcher):
         """
         self.hide_loading_screen()
         self.email_exists = False  # Triggers hiding the sign in button
+        print(failure_data)
         msg = failure_data['error']['message'].replace("_", " ").capitalize()
-        toast(msg)
+        # Check if the error msg is the same as the last one
+        if msg == self.sign_up_msg:
+            # Need to modify it somehow to make the error popup display
+            msg = " " + msg + " "
+        self.sign_up_msg = msg
         if msg == "Email exists":
             self.email_exists = True
         if self.debug:
@@ -198,8 +199,13 @@ class FirebaseLoginScreen(Screen, EventDispatcher):
         """
         self.hide_loading_screen()
         self.email_not_found = False  # Triggers hiding the sign in button
+        print(failure_data)
         msg = failure_data['error']['message'].replace("_", " ").capitalize()
-        toast(msg)
+        # Check if the error msg is the same as the last one
+        if msg == self.sign_in_msg:
+            # Need to modify it somehow to make the error popup display
+            msg = " " + msg + " "
+        self.sign_in_msg = msg
         if msg == "Email not found":
             self.email_not_found = True
         if self.debug:
@@ -233,7 +239,14 @@ class FirebaseLoginScreen(Screen, EventDispatcher):
         self.hide_loading_screen()
         if self.debug:
             print("Successfully sent a password reset email", reset_data)
-        toast("Reset password instructions sent to your email.")
+
+    def successful_reset(self, urlrequest, reset_data):
+        """Notifies the user that a password reset email has been sent to them.
+        """
+        self.hide_loading_screen()
+        if self.debug:
+            print("Successfully sent a password reset email", reset_data)
+        self.sign_in_msg = "Reset password instructions sent to your email."
 
     def save_refresh_token(self, refresh_token):
         """Saves the refresh token in a local file to enable automatic sign in
@@ -290,11 +303,6 @@ class FirebaseLoginScreen(Screen, EventDispatcher):
         self.idToken = ''
         self.clear_refresh_token_file()
         self.ids.screen_manager.current = 'welcome_screen'
-        toast("Signed out")
-
-    def clear_refresh_token_file(self):
-        with open(self.refresh_token_file, 'w') as f:
-            f.write('')
 
     def display_loading_screen(self, *args):
         self.popup.open()
@@ -323,7 +331,6 @@ class FirebaseLoginScreen(Screen, EventDispatcher):
         if self.debug:
             print("could_not_get_verification_info", request, result)
         self.hide_loading_screen()
-        toast("Failed to check email verification status.")
 
     def got_verification_info(self, request, result):
         if self.debug:
@@ -332,7 +339,7 @@ class FirebaseLoginScreen(Screen, EventDispatcher):
             self.login_state = 'in'
             self.login_success = True
         else:
-            toast("Your email is not verified yet.\n Please check your email.")
+            print("Your email is not verified yet.\n Please check your email.")
 
     def send_verification_email(self, email):
         """Sends a verification email.
@@ -355,9 +362,3 @@ class FirebaseLoginScreen(Screen, EventDispatcher):
                    on_failure=self.unsuccessful_verify_email_sent,
                    on_error=self.unsuccessful_verify_email_sent,
                    ca_file=certifi.where())
-
-    def unsuccessful_verify_email_sent(self, *args):
-        toast("Couldn't send email verification email")
-
-    def successful_verify_email_sent(self, *args):
-        toast("A verification email has been sent. \nPlease check your email.")
