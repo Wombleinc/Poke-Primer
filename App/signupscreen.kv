@@ -1,5 +1,4 @@
 <SignUpScreen>:
-    id:signup_screen
     FloatLayout:
         Button:
             size_hint: .4, .05
@@ -7,7 +6,9 @@
             text: "Back"
             font_name: "PokeFont"
             on_release:
-                root.go_back()
+                root.parent.transition = SlideTransition(direction="right")
+                root.parent.current = root.parent.current = "welcome_screen"
+                root.parent.transition = SlideTransition(direction="left")
 
         TextInput:
             id: email
