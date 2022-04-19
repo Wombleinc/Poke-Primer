@@ -1,11 +1,13 @@
+#:import Animation kivy.animation.Animation
+#:import SlideTransition kivy.uix.screenmanager.SlideTransition
+
 <FirebaseLoginScreen>:
     canvas.before:
         Color:
             rgba: .64, .72, .66, 1
         Rectangle:
-            pos: self.pos
             size: self.size
-        
+            pos: self.pos
     on_email_exists:
         sign_up_screen.ids.sign_in_button.disabled = False
         sign_up_screen.ids.sign_in_button.opacity = 1
@@ -15,7 +17,7 @@
         sign_in_screen.ids.sign_in_button.opacity = 1
 
     ScreenManager:
-        id: screen_manager
+        id: info_sm
         WelcomeScreen:
             id: welcome_screen
             name: "welcome_screen"
