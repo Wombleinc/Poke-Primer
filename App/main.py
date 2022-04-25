@@ -489,7 +489,7 @@ class PokemonCard(BoxLayout):
             self.ball_button.bind(on_release=self.RemoveFromTrainer)
             print("Adding")
 
-            Trainer.trainerTeam.add_from_id_to_team(self.id)
+            Trainer.trainerTeam.add_pokemon(self.id)
             Trainer.trainerTeam.save_team_to_json()
         else:
             self.ball_button.background_normal='icon_ball.png'
@@ -516,7 +516,7 @@ class PokemonCard(BoxLayout):
             self.ball_button.unbind(on_release=self.AddToTrainer)
             self.ball_button.bind(on_release=self.RemoveFromTrainer)
             print("Adding")
-            Trainer.trainerTeam.add_from_id_to_team(self.id)
+            Trainer.trainerTeam.add_pokemon(self.id)
             Trainer.trainerTeam.save_team_to_json()
 
 class PokeDex(Screen):
