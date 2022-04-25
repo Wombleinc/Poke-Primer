@@ -19,7 +19,7 @@ sys.path.append('/Poke-Primer-main/')
 import os
 
 from MoveDex.code.scripts import get_move_id_list, get_move_name_list, get_move_sorting_list, get_move_type_list
-from Trainer.classes import Team, TrainerBag, TrainerMoves, all_pokemon_name_list
+from Trainer.classes import Trainer, all_pokemon_name_list
 from Trainer.scripts import all_pokemon_id_list, get_pokemon_sorting_list
 
 from card import CardPokemon
@@ -136,8 +136,8 @@ class MoveCard(BoxLayout):
         self.ball_button.unbind(on_release=self.AddToTrainer)
         self.ball_button.bind(on_release=self.RemoveFromTrainer)
 
-        Trainer.trainerMoves.add_move(self.id)
-        Trainer.trainerMoves.save_moves_to_json()
+        Trainer.trainer.add_move(self.id)
+        Trainer.trainer.save_moves_to_json()
 
     def RemoveFromTrainer(self, *args):
         self.ball_button.background_normal='icon_move.png'
@@ -145,8 +145,8 @@ class MoveCard(BoxLayout):
         self.ball_button.unbind(on_release=self.RemoveFromTrainer)
         self.ball_button.bind(on_release=self.AddToTrainer)
 
-        Trainer.trainerMoves.remove_move(self.id)
-        Trainer.trainerMoves.save_moves_to_json()
+        Trainer.trainer.remove_move(self.id)
+        Trainer.trainer.save_moves_to_json()
 
 class ItemCard(BoxLayout):
     def __init__(self, id):
@@ -297,8 +297,8 @@ class ItemCard(BoxLayout):
             print("Adding")
         
             # This function now saves teams to json instead of csv
-            Trainer.trainerBag.add_item(self.id)
-            Trainer.trainerBag.save_bag_to_json()
+            Trainer.trainer.add_item(self.id)
+            Trainer.trainer.save_bag_to_json()
             print(Trainer.check_for_added(self.id, 3))
         else:
             self.ball_button.background_normal='icon_item.png'
@@ -307,8 +307,8 @@ class ItemCard(BoxLayout):
             self.ball_button.bind(on_release=self.AddToTrainer)
             print("Removing")
             
-            Trainer.trainerBag.remove_item(self.id)
-            Trainer.trainerBag.save_bag_to_json()
+            Trainer.trainer.remove_item(self.id)
+            Trainer.trainer.save_bag_to_json()
             print(Trainer.check_for_added(self.id, 3))
     def RemoveFromTrainer(self, *args):
         if Trainer.check_for_added(self.id, 3):
@@ -318,8 +318,8 @@ class ItemCard(BoxLayout):
             self.ball_button.bind(on_release=self.AddToTrainer)
             print("Removing")
             
-            Trainer.trainerBag.remove_item(self.id)
-            Trainer.trainerBag.save_bag_to_json()
+            Trainer.trainer.remove_item(self.id)
+            Trainer.trainer.save_bag_to_json()
             print(Trainer.check_for_added(self.id, 3))
         else:
 
@@ -330,8 +330,8 @@ class ItemCard(BoxLayout):
             print("Adding")
         
             # This function now saves teams to json instead of csv
-            Trainer.trainerBag.add_item(self.id)
-            Trainer.trainerBag.save_bag_to_json()
+            Trainer.trainer.add_item(self.id)
+            Trainer.trainer.save_bag_to_json()
             print(Trainer.check_for_added(self.id, 3))
 
 class PokemonCard(BoxLayout):
@@ -489,16 +489,16 @@ class PokemonCard(BoxLayout):
             self.ball_button.bind(on_release=self.RemoveFromTrainer)
             print("Adding")
 
-            Trainer.trainerTeam.add_pokemon(self.id)
-            Trainer.trainerTeam.save_team_to_json()
+            Trainer.trainer.add_pokemon(self.id)
+            Trainer.trainer.save_team_to_json()
         else:
             self.ball_button.background_normal='icon_ball.png'
             self.ball_button.background_down='icon_ball_down.png'
             self.ball_button.unbind(on_release=self.RemoveFromTrainer)
             self.ball_button.bind(on_release=self.AddToTrainer)
             print("Removing")
-            Trainer.trainerTeam.remove_pokemon(self.id)
-            Trainer.trainerTeam.save_team_to_json()
+            Trainer.trainer.remove_pokemon(self.id)
+            Trainer.trainer.save_team_to_json()
     def RemoveFromTrainer(self, *args):
         if Trainer.check_for_added(self.id, 1):
             self.ball_button.background_normal='icon_ball.png'
@@ -507,8 +507,8 @@ class PokemonCard(BoxLayout):
             self.ball_button.bind(on_release=self.AddToTrainer)
             print("Removing")
 
-            Trainer.trainerTeam.remove_pokemon(self.id)
-            Trainer.trainerTeam.save_team_to_json()
+            Trainer.trainer.remove_pokemon(self.id)
+            Trainer.trainer.save_team_to_json()
         else:
 
             self.ball_button.background_normal='icon_ball_added.png'
@@ -516,8 +516,8 @@ class PokemonCard(BoxLayout):
             self.ball_button.unbind(on_release=self.AddToTrainer)
             self.ball_button.bind(on_release=self.RemoveFromTrainer)
             print("Adding")
-            Trainer.trainerTeam.add_pokemon(self.id)
-            Trainer.trainerTeam.save_team_to_json()
+            Trainer.trainer.add_pokemon(self.id)
+            Trainer.trainer.save_team_to_json()
 
 class PokeDex(Screen):
 
@@ -604,17 +604,15 @@ class ItemDex(Screen):
 
 class Trainer(Screen):
 
-    trainerTeam = Team()
-    trainerBag = TrainerBag()
-    trainerMoves = TrainerMoves()
+    trainer = Trainer()
 
     def check_for_added(id, category):
         if category == 1:
-            ownedList = Trainer.trainerTeam.get_team_id_list()
+            ownedList = Trainer.trainer.get_team_id_list()
         if category == 2:
-            ownedList = Trainer.trainerMoves.get_move_id_list()
+            ownedList = Trainer.trainer.get_move_id_list()
         if category == 3:
-            ownedList = Trainer.trainerBag.get_item_id_list()
+            ownedList = Trainer.trainer.get_item_id_list()
         for owned_member in ownedList:
             if owned_member == id:
                 return True
@@ -628,8 +626,8 @@ class Trainer(Screen):
     def GenerateTeam(self):
         self.ids.trainer_grid.clear_widgets()
         self.ids.poke.background_normal = "button_cat_sel.png"
-        pokeIDList = self.trainerTeam.get_team_id_list()
-        pokeIDName = self.trainerTeam.get_team_name_list()
+        pokeIDList = self.trainer.get_team_id_list()
+        pokeIDName = self.trainer.get_team_name_list()
         i = 0
         for i in range(len(pokeIDList)):
             if pokeIDList[i] is not 0:
@@ -642,9 +640,9 @@ class Trainer(Screen):
         self.ids.trainer_grid.clear_widgets()
         self.ids.moves.background_normal = "button_cat_sel.png"
         
-        move_id_list = self.trainerMoves.get_move_id_list()
-        move_name_list = self.trainerMoves.get_move_name_list()
-        move_type_list = self.trainerMoves.get_move_type_list()
+        move_id_list = self.trainer.get_move_id_list()
+        move_name_list = self.trainer.get_move_name_list()
+        move_type_list = self.trainer.get_move_type_list()
         i = 0
         for i in range(len(move_id_list)):
             mCard = MoveCard(move_id_list[i])
@@ -656,9 +654,9 @@ class Trainer(Screen):
         self.ids.trainer_grid.clear_widgets()
         self.ids.item_button.background_normal = "button_cat_sel.png"
         
-        item_id_list = self.trainerBag.get_item_id_list()
-        item_name_list = self.trainerBag.get_item_name_list()
-        item_category_list = self.trainerBag.get_item_category_list()
+        item_id_list = self.trainer.get_item_id_list()
+        item_name_list = self.trainer.get_item_name_list()
+        item_category_list = self.trainer.get_item_category_list()
         i = 0
         for i in range(len(item_id_list)):
             iCard = ItemCard(item_id_list[i])
