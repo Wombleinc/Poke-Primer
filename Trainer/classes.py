@@ -32,51 +32,11 @@ class Pokemon:
         else:
             self.name = None
 
-        if "item" in kwargs:
-            self.item = None
-        else:
-            self.item = None
-
-        if "move_1" in kwargs:
-            self.move_1 = None
-        else:
-            self.move_1 = None
-
-        if "move_2" in kwargs:
-            self.move_2 = None
-        else:
-            self.move_2 = None
-
-        if "move_3" in kwargs:
-            self.move_3 = None
-        else:
-            self.move_3 = None
-
-        if "move_4" in kwargs:
-            self.move_4 = None
-        else:
-            self.move_4 = None
-
     def get_id(self):
         return self.id
 
     def get_name(self):
         return self.name
-
-    def get_item(self):
-        return self.item
-
-    def get_move_1(self):
-        return self.move_1
-
-    def get_move_2(self):
-        return self.move_2
-
-    def get_move_3(self):
-        return self.move_3
-
-    def get_move_4(self):
-        return self.move_4
 
     def set_id(self, id):
         self.id = id
@@ -84,40 +44,20 @@ class Pokemon:
     def set_name(self, name):
         self.name = name
 
-    def set_item(self, item):
-        self.item = item
-
-    def set_move_1(self, move_1):
-        self.move_1 = move_1
-
-    def set_move_2(self, move_2):
-        self.move_2 = move_2
-
-    def set_move_3(self, move_3):
-        self.move_3 = move_3
-
-    def set_move_4(self, move_4):
-        self.move_4 = move_4
-
 
 class Team:
-    MAXIMUM_CAPACITY = 6
-
     def __init__(self, *args):
-        self.members = [Pokemon(), Pokemon(), Pokemon(), Pokemon(), Pokemon(), Pokemon()]
+        self.members = []
 
-        if 0 < len(args) <= 6:
-            for pokemon in args:
-                self.add_pokemon(pokemon)
-        if len(args) > 6:
-            print("Too many Pokemon")
-
-    def get_pokemon(self, name):
-        for count, pokemon in enumerate(self.members):
-            if name == pokemon.get_name():
-                return self.members[count]
-        raise Exception("No such Pokemon on your team.")
-
+    def add_pokemon(self, id):
+        self.members.append(create_pokemon_from_id(id))
+    
+    def remove_pokemon(self, id):
+        for pokemon in self.members:
+            if pokemon.get_id() == id:
+                self.members.remove(pokemon)
+                break
+    
     def get_team_id_list(self):
         pokemon_list = []
         for pokemon in self.members:
@@ -130,103 +70,18 @@ class Team:
             pokemon_list.append(pokemon.get_name())
         return pokemon_list
 
-    def add_pokemon(self, pokemon):
-        count = 0
-        for member in self.members:
-            if member.id != 0:
-                count += 1
-
-        if count < self.MAXIMUM_CAPACITY:
-            self.members.pop(count)
-            self.members.insert(count, pokemon)
-        else:
-            print("Team's too big! Data wasn't changed.")
-    
-    def remove_pokemon(self, id):
-        count = 0
-        remove_id = 0
-        for member in self.members:
-            if member.id != 0:
-                if member.id == id:
-                    remove_id = count
-                    break
-                count += 1
-            self.members.pop(remove_id)
-            self.members.append(Pokemon())
-
-    def add_from_id_to_team(self, pokemon_id):
-        """
-        :param pokemon_id: The id to create a pokemon from
-        :param team: The user's pokemon team
-        :return: Nothing, but the specified pokemon is created and stored in the user's pokemon team
-        """
-        self.add_pokemon(create_pokemon_from_id(pokemon_id))
-
     def save_team_to_json(self):
         team_dict = {
-            "pokemon": [
-                {
-                    "slot": 1,
-                    "id": int(self.members[0].get_id()),
-                    "name": self.members[0].get_name(),
-                    "item": self.members[0].get_item(),
-                    "move_1": self.members[0].get_move_1(),
-                    "move_2": self.members[0].get_move_2(),
-                    "move_3": self.members[0].get_move_3(),
-                    "move_4": self.members[0].get_move_4()
-                },
-                {
-                    "slot": 2,
-                    "id": int(self.members[1].get_id()),
-                    "name": self.members[1].get_name(),
-                    "item": self.members[1].get_item(),
-                    "move_1": self.members[1].get_move_1(),
-                    "move_2": self.members[1].get_move_2(),
-                    "move_3": self.members[1].get_move_3(),
-                    "move_4": self.members[1].get_move_4()
-                },
-                {
-                    "slot": 3,
-                    "id": int(self.members[2].get_id()),
-                    "name": self.members[2].get_name(),
-                    "item": self.members[2].get_item(),
-                    "move_1": self.members[2].get_move_1(),
-                    "move_2": self.members[2].get_move_2(),
-                    "move_3": self.members[2].get_move_3(),
-                    "move_4": self.members[2].get_move_4()
-                },
-                {
-                    "slot": 4,
-                    "id": int(self.members[3].get_id()),
-                    "name": self.members[3].get_name(),
-                    "item": self.members[3].get_item(),
-                    "move_1": self.members[3].get_move_1(),
-                    "move_2": self.members[3].get_move_2(),
-                    "move_3": self.members[3].get_move_3(),
-                    "move_4": self.members[3].get_move_4()
-                },
-                {
-                    "slot": 5,
-                    "id": int(self.members[4].get_id()),
-                    "name": self.members[4].get_name(),
-                    "item": self.members[4].get_item(),
-                    "move_1": self.members[4].get_move_1(),
-                    "move_2": self.members[4].get_move_2(),
-                    "move_3": self.members[4].get_move_3(),
-                    "move_4": self.members[4].get_move_4()
-                },
-                {
-                    "slot": 6,
-                    "id": int(self.members[5].get_id()),
-                    "name": self.members[5].get_name(),
-                    "item": self.members[5].get_item(),
-                    "move_1": self.members[5].get_move_1(),
-                    "move_2": self.members[5].get_move_2(),
-                    "move_3": self.members[5].get_move_3(),
-                    "move_4": self.members[5].get_move_4()
-                }
-            ]
+            "pokemon": []
         }
+
+        for pokemon in self.members:
+            new_data = {
+                "id": int(self.members[0].get_id()),
+                "name": self.members[0].get_name()
+            }
+
+            team_dict["pokemon"].append(new_data)
 
         with open(ROOT_DIR + "Trainer\\team.json", "w") as json_file:
             json.dump(team_dict, json_file, indent=4)
