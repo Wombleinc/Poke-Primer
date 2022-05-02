@@ -1,6 +1,0 @@
-MoveDex
-
-a "move" object containing some descriptors like attack power, accuracy, pp, etc as variables
-  a method or variable wrapping these variables into a human-readable string
-methods to query the api and unpack its resultant info
-methods to intake user input and turn that into an api query
