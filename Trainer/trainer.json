@@ -1,0 +1,46 @@
+{
+    "pokemon": [
+        {
+            "id": 3,
+            "name": "Venusaur"
+        },
+        {
+            "id": 4,
+            "name": "Charmander"
+        },
+        {
+            "id": 6,
+            "name": "Charizard"
+        }
+    ],
+    "items": [],
+    "moves": [
+        {
+            "move_id": 4,
+            "move_name": "Comet Punch",
+            "move_type": "Normal",
+            "move_category": "Physical",
+            "move_pp": 15,
+            "move_power": 18,
+            "move_accuracy": "85%"
+        },
+        {
+            "move_id": 6,
+            "move_name": "Pay Day",
+            "move_type": "Normal",
+            "move_category": "Physical",
+            "move_pp": 20,
+            "move_power": 40,
+            "move_accuracy": "100%"
+        },
+        {
+            "move_id": 8,
+            "move_name": "Ice Punch",
+            "move_type": "Ice",
+            "move_category": "Physical",
+            "move_pp": 15,
+            "move_power": 75,
+            "move_accuracy": "100%"
+        }
+    ]
+}

@@ -1,0 +1,53 @@
+<SignUpScreen>:
+    FloatLayout:
+        Button:
+            size_hint: .4, .05
+            pos_hint: {"center_x": .25, "top": .225}
+            text: "Back"
+            font_name: "PokeFont"
+            on_release:
+                root.parent.transition = SlideTransition(direction="right")
+                root.parent.current = root.parent.current = "welcome_screen"
+                root.parent.transition = SlideTransition(direction="left")
+
+        TextInput:
+            id: email
+            size_hint: .9 ,.1
+            pos_hint: {"center_x": .5, "top": .7}
+            hint_text: "Email"
+            line_color_focus: root.parent.parent.primary_color if root.parent else (0,0,0,1)
+            line_color_normal: root.parent.parent.primary_color if root.parent else (0,0,0,1)
+
+
+        TextInput:
+            id: password
+            size_hint: .9 ,.1
+            pos_hint: {"center_x": .5, "top": .575}
+            hint_text: "Password"
+            password: True
+
+
+        Button:
+            text: "Create"
+            font_name: "PokeFont"
+            size_hint: .4 ,.05
+            pos_hint: {"center_x": .75, "top": .45}
+            on_release:
+                # Need to refer to the FirebaseLoginScreen
+                root.parent.parent.sign_up(email.text, password.text)
+                sign_in_button.opacity = 0
+                sign_in_button.disabled = True
+                root.parent.parent.display_loading_screen()
+
+        Button:
+            id: sign_in_button
+            text: "Sign in"
+            font_name: "PokeFont"
+            size_hint: .2 ,.05
+            pos_hint: {"right": .85, "center_y": .1}
+            opacity: 0
+            disabled: True
+            on_release:
+                root.parent.current = "sign_in_screen"
+                root.parent.parent.ids.sign_in_screen.ids.email.text = email.text
+                root.parent.parent.ids.sign_in_screen.ids.password.text = password.text
